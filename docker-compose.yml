@@ -4,9 +4,10 @@ services:
     image: postgres:17-alpine
     restart: unless-stopped
     environment:
-      POSTGRES_DB: ${DB_NAME:-postgres}
+      POSTGRES_DB: ${DB_NAME:-coursesapp}
       POSTGRES_USER: ${DB_USER:-postgres}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-coursesapp123}
+      POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256 --auth-local=scram-sha-256"
     # Remove fixed port mapping for production deployment
     # ports:
     #   - "5432:5432"
@@ -16,7 +17,7 @@ services:
     networks:
       - app-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres}"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-coursesapp}"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -34,9 +35,9 @@ services:
       - DEBUG=${DEBUG:-0}
       - DB_HOST=db
       - DB_PORT=5432
-      - DB_NAME=${DB_NAME:-postgres}
+      - DB_NAME=${DB_NAME:-coursesapp}
       - DB_USER=${DB_USER:-postgres}
-      - DB_PASSWORD=${DB_PASSWORD:-postgres}
+      - DB_PASSWORD=${DB_PASSWORD:-coursesapp123}
       - SECRET_KEY=${SECRET_KEY:-change-me-in-production}
       - ALLOWED_HOSTS=${ALLOWED_HOSTS:-*}
       - CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS:-http://localhost:3000}
