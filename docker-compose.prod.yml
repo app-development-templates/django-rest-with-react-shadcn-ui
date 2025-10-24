@@ -43,6 +43,7 @@ services:
         condition: service_healthy
     networks:
       - app-network
+      - dokploy-network
     command: >
       sh -c "python wait-for-db.py &&
              python manage.py migrate &&
@@ -52,6 +53,12 @@ services:
     labels:
       - "dokploy.backend=true"
       - "dokploy.main-service=true"
+      # Traefik labels for production routing
+      - "traefik.enable=true"
+      - "traefik.http.routers.backend.rule=Host(`backend.presentationlab.org`)"
+      - "traefik.http.routers.backend.entrypoints=websecure"
+      - "traefik.http.routers.backend.tls.certresolver=letsencrypt"
+      - "traefik.http.services.backend.loadbalancer.server.port=8000"
 
   # React Frontend
   frontend:
@@ -68,8 +75,15 @@ services:
       - backend
     networks:
       - app-network
+      - dokploy-network
     labels:
       - "dokploy.frontend=true"
+      # Traefik labels for production routing
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend.rule=Host(`frontend.presentationlab.org`)"
+      - "traefik.http.routers.frontend.entrypoints=websecure"
+      - "traefik.http.routers.frontend.tls.certresolver=letsencrypt"
+      - "traefik.http.services.frontend.loadbalancer.server.port=3000"
 
 volumes:
   postgres_data:
@@ -77,3 +91,5 @@ volumes:
 networks:
   app-network:
     driver: bridge
+  dokploy-network:
+    external: true
