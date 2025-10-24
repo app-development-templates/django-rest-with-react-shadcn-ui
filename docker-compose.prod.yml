@@ -24,7 +24,7 @@ services:
   backend:
     build:
       context: ./django-rest-api
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     restart: unless-stopped
     # Dokploy will handle external port mapping
     expose:
@@ -50,7 +50,7 @@ services:
              python manage.py migrate &&
              python manage.py collectstatic --noinput &&
              python manage.py create_default_superuser &&
-             python manage.py runserver 0.0.0.0:8000"
+             gunicorn backend.wsgi:application --config gunicorn.conf.py"
     labels:
       - "dokploy.backend=true"
       - "dokploy.main-service=true"
@@ -65,7 +65,7 @@ services:
   frontend:
     build:
       context: ./react-shadcn-ui
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     restart: unless-stopped
     # Dokploy will handle external port mapping
     expose:
