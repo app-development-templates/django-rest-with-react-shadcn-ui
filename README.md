@@ -1,0 +1,1 @@
+# django-rest-with-react-shadcn-ui
