@@ -4,6 +4,11 @@ FROM node:20-alpine
 # Set working directory
 WORKDIR /app
 
+# Set environment variables to handle file watching
+ENV CHOKIDAR_USEPOLLING=true
+ENV CHOKIDAR_INTERVAL=1000
+ENV WATCHPACK_POLLING=true
+
 # Copy package.json and package-lock.json (if available)
 COPY package*.json ./
 
@@ -20,5 +25,5 @@ COPY . .
 EXPOSE 3000
 
 # For production, use nginx to serve static files
-# For development, use Vite dev server
-CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "3000"]
+# For development, use Vite dev server with polling enabled
+CMD ["npm", "run", "dev"]

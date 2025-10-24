@@ -43,14 +43,14 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    networks:
-      - app-network
     command: >
       sh -c "python wait-for-db.py &&
              python manage.py migrate &&
              python manage.py collectstatic --noinput &&
              python manage.py create_default_superuser &&
              python manage.py runserver 0.0.0.0:8000"
+    networks:
+      - app-network
     labels:
       - "dokploy.main-service=backend"
       # Traefik labels for production routing
@@ -59,9 +59,6 @@ services:
       - "traefik.http.routers.backend.entrypoints=websecure"
       - "traefik.http.routers.backend.tls.certresolver=letsencrypt"
       - "traefik.http.services.backend.loadbalancer.server.port=8000"
-    networks:
-      - app-network
-      - dokploy-network
 
   # React Frontend
   frontend:
@@ -74,10 +71,17 @@ services:
       - "3000"
     environment:
       - VITE_API_URL=${VITE_API_URL:-https://backend.presentationlab.org}
+      - CHOKIDAR_USEPOLLING=true
+      - CHOKIDAR_INTERVAL=1000
+      - WATCHPACK_POLLING=true
     depends_on:
       - backend
     networks:
       - app-network
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
     labels:
       - "dokploy.frontend=true"
       # Traefik labels for production routing
@@ -86,9 +90,6 @@ services:
       - "traefik.http.routers.frontend.entrypoints=websecure"
       - "traefik.http.routers.frontend.tls.certresolver=letsencrypt"
       - "traefik.http.services.frontend.loadbalancer.server.port=3000"
-    networks:
-      - app-network
-      - dokploy-network
 
 volumes:
   postgres_data:
