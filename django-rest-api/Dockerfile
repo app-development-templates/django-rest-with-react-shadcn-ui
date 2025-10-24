@@ -20,11 +20,11 @@ RUN apt-get update \
 COPY backend/requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy project (including wait-for-db.py)
+# Copy project files (includes wait-for-db.py)
 COPY backend/ /app/
 
 # Expose port
 EXPOSE 8000
 
-# Run the application
-CMD ["python", "wait-for-db.py"]
+# Run the application (this will be overridden by docker-compose command)
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
