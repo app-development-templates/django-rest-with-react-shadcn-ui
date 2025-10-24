@@ -27,8 +27,9 @@ services:
       context: ./django-rest-api
       dockerfile: Dockerfile
     restart: unless-stopped
-    ports:
-      - "${BACKEND_PORT:-8000}:8000"
+    # Use expose instead of ports for Dokploy compatibility
+    expose:
+      - "8000"
     environment:
       - DEBUG=${DEBUG:-0}
       - DB_HOST=db
@@ -50,6 +51,8 @@ services:
              python manage.py collectstatic --noinput &&
              python manage.py create_default_superuser &&
              python manage.py runserver 0.0.0.0:8000"
+    labels:
+      - "dokploy.main-service=backend"
 
   # React Frontend
   frontend:
@@ -57,14 +60,17 @@ services:
       context: ./react-shadcn-ui
       dockerfile: Dockerfile
     restart: unless-stopped
-    ports:
-      - "${FRONTEND_PORT:-3000}:3000"
+    # Use expose instead of ports for Dokploy compatibility
+    expose:
+      - "3000"
     environment:
       - VITE_API_URL=${VITE_API_URL:-http://localhost:8000}
     depends_on:
       - backend
     networks:
       - app-network
+    labels:
+      - "dokploy.frontend=true"
 
 volumes:
   postgres_data:
