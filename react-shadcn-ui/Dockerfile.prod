@@ -18,7 +18,7 @@ RUN npm ci
 COPY . .
 
 # Persist provided API base into an env file consumed by Vite's build
-RUN if [ -n "$VITE_API_URL" ]; then echo "VITE_API_URL=$VITE_API_URL" > .env.production; fi
+RUN if [ -n "$VITE_API_URL" ]; then echo "VITE_API_URL=$VITE_API_URL" > .env; fi
 
 # Build the application
 RUN npm run build
