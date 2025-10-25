@@ -7,11 +7,18 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
+# Accept API base URL at build time so Vite can bake it into the bundle
+ARG VITE_API_URL
+ENV VITE_API_URL=${VITE_API_URL}
+
 # Install dependencies
 RUN npm ci
 
 # Copy source code
 COPY . .
+
+# Persist provided API base into an env file consumed by Vite's build
+RUN if [ -n "$VITE_API_URL" ]; then echo "VITE_API_URL=$VITE_API_URL" > .env.production; fi
 
 # Build the application
 RUN npm run build
