@@ -8,10 +8,6 @@ class ApiConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'api'
 
-    def ready(self):
-        # Connect the post_migrate signal
-        post_migrate.connect(create_default_superuser, sender=self)
-
 
 @receiver(post_migrate)
 def create_default_superuser(sender, **kwargs):
