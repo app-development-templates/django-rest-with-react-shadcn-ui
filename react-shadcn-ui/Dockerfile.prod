@@ -1,7 +1,6 @@
 # Multi-stage build for production
 FROM node:20-alpine as build
 
-RUN sh ""
 
 # Accept API base URL at build time so Vite can bake it into the bundle
 ARG VITE_API_URL
