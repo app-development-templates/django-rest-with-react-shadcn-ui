@@ -4,19 +4,10 @@
 # DB_PASSWORD: postgres 
 #
 #
-## Backend
 # DOCKPLOY_BACKEND_HOST: backend.presentationlab.org 
-# DEBUG: False 
-# 
+# DOCKPLOY_FRONTEND_HOST: frontend.presentationlab.org
+
 # SECRET_KEY: random-secret-key-*$&*#@!HDU@D&*@$G@!*&H*D&H& 
-# ALLOWED_HOSTS: backend.presentationlab.org,frontend.presentationlab 
-# CSRF_TRUSTED_ORIGINS: https://backend.presentationlab.org, https://frontend.presentationlab.org 
-# CORS_ALLOWED_ORIGINS: https://backend.presentationlab.org, https://frontend.presentationlab.org 
-#
-## Frontend
-# DOCKPLOY_FRONTEND_HOST: frontend.presentationlab.org 
-# VITE_API_URL: https://backend.presentationlab.org 
-#
 
 
 
@@ -49,16 +40,16 @@ services:
       context: ./django-rest-api
       dockerfile: Dockerfile
       args:
-        - DEBUG=${DEBUG}
+        - DEBUG=False
         - DB_HOST=db
         - DB_PORT=5432
         - DB_NAME=${DB_NAME}
         - DB_USER=${DB_USER}
         - DB_PASSWORD=${DB_PASSWORD}
         - SECRET_KEY=${SECRET_KEY}
-        - ALLOWED_HOSTS=${ALLOWED_HOSTS}
-        - CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS}
-        - CSRF_TRUSTED_ORIGINS=${CSRF_TRUSTED_ORIGINS}
+        - ALLOWED_HOSTS=backend.presentationlab.org,frontend.presentationlab 
+        - CORS_ALLOWED_ORIGINS=https://backend.presentationlab.org,https://frontend.presentationlab.org 
+        - CSRF_TRUSTED_ORIGINS=https://backend.presentationlab.org,https://frontend.presentationlab.org 
     restart: unless-stopped
     # Use expose instead of ports for Dokploy compatibility
     expose:
