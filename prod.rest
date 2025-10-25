@@ -1,0 +1,7 @@
+POST https://backend.presentationlab.org/api/user/register/
+Content-Type: application/json
+
+{
+    "username": "test",
+    "password": "test"
+}
