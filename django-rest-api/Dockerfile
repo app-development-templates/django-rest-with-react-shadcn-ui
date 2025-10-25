@@ -7,6 +7,8 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 # Forward configuration so the runtime matches build-time defaults
 ARG DEBUG=0
+ARG DB_HOST=db
+ARG DB_PORT=5432
 ARG DB_NAME=coursesapp
 ARG DB_USER=postgres
 ARG DB_PASSWORD=coursesapp123
@@ -16,6 +18,8 @@ ARG CORS_ALLOWED_ORIGINS=http://localhost:3000
 ARG CSRF_TRUSTED_ORIGINS=http://localhost:8000
 
 ENV DEBUG=${DEBUG} \
+    DB_HOST=${DB_HOST} \
+    DB_PORT=${DB_PORT} \
     DB_NAME=${DB_NAME} \
     DB_USER=${DB_USER} \
     DB_PASSWORD=${DB_PASSWORD} \
