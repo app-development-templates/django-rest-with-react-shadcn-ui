@@ -1,0 +1,10 @@
+- [ ] Confirm VITE_* production env vars (API base URL, auth secrets) are defined in the deployment platform and match .env expectations
+- [ ] Run npm ci or pnpm install --frozen-lockfile locally to verify dependency lock and catch integrity issues before the build
+- [ ] Execute npm run build with NODE_ENV=production to ensure the Vite build succeeds without warnings or Tailwind errors
+- [ ] Smoke-test the built output via npm run preview or container image locally to confirm routing, auth redirects, and protected routes behave correctly
+- [ ] Check that axios interceptors still attach JWT tokens and handle refresh/expiration logic in the production build
+- [ ] Validate critical pages (/login, /register, /settings) for hydration mismatches or console errors in the minified bundle
+- [ ] Ensure all assets referenced in tailwind.css or src/assets are bundled or available on the CDN target
+- [ ] Review Dockerfile.prod/nginx.conf for correct COPY paths, caching headers, and fallback route (try_files) for SPA navigation
+- [ ] Confirm CI/CD pipeline caches dependencies, runs lint/tests, and publishes the built dist/ to the expected artifact registry or static host
+- [ ] Monitor production logs and error tracking (if configured) after deploy to capture regressions in auth flows or API integration
