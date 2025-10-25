@@ -67,13 +67,13 @@ services:
       context: ./react-shadcn-ui
       dockerfile: Dockerfile.prod
       args:
-        - VITE_API_URL=${VITE_API_URL:-https://backend.presentationlab.org}
+        - VITE_API_URL=${VITE_API_URL}
     restart: unless-stopped
     # Use expose instead of ports for Dokploy compatibility
     expose:
       - "3000"
     environment:
-      - VITE_API_URL=${VITE_API_URL:-https://backend.presentationlab.org}
+      - VITE_API_URL=${VITE_API_URL}
       - CHOKIDAR_USEPOLLING=true
       - CHOKIDAR_INTERVAL=1000
       - WATCHPACK_POLLING=true
