@@ -20,12 +20,5 @@ export default defineConfig({
       'frontend.presentationlab.org',
       '.presentationlab.org'
     ],
-    watch: {
-      usePolling: true,
-      interval: 1000,
-    },
-    fs: {
-      strict: false,
-    },
   },
 })
