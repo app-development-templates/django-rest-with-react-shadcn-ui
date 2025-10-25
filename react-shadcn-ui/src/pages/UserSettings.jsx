@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ACCESS_TOKEN } from "../constants";
@@ -6,6 +6,7 @@ import { ACCESS_TOKEN } from "../constants";
 function UserSettings() {
     const [tokenData, setTokenData] = useState(null);
     const [error, setError] = useState(null);
+    const [currentTime, setCurrentTime] = useState(() => Date.now() / 1000);
 
     useEffect(() => {
         const getTokenData = () => {
@@ -28,15 +29,22 @@ function UserSettings() {
         getTokenData();
     }, []);
 
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentTime(Date.now() / 1000);
+        }, 60 * 1000);
+
+        return () => clearInterval(interval);
+    }, []);
+
     const formatTimestamp = (timestamp) => {
         if (!timestamp) return "N/A";
         return new Date(timestamp * 1000).toLocaleString();
     };
 
-    const getTimeRemaining = (expTimestamp) => {
+    const getTimeRemaining = useCallback((expTimestamp) => {
         if (!expTimestamp) return "N/A";
-        const now = Date.now() / 1000;
-        const secondsLeft = expTimestamp - now;
+        const secondsLeft = expTimestamp - currentTime;
         
         if (secondsLeft <= 0) return "Expired";
         
@@ -47,7 +55,9 @@ function UserSettings() {
         if (days > 0) return `${days}d ${hours}h ${minutes}m`;
         if (hours > 0) return `${hours}h ${minutes}m`;
         return `${minutes}m`;
-    };
+    }, [currentTime]);
+
+    const tokenIsValid = tokenData?.exp ? tokenData.exp > currentTime : false;
 
     return (
         <div className="min-h-screen bg-gray-50 py-8">
@@ -76,11 +86,11 @@ function UserSettings() {
                                                 <div className="flex justify-between">
                                                     <span className="text-gray-600">Status:</span>
                                                     <span className={`font-medium ${
-                                                        tokenData.exp && (tokenData.exp * 1000) > Date.now() 
+                                                        tokenIsValid 
                                                             ? 'text-green-600' 
                                                             : 'text-red-600'
                                                     }`}>
-                                                        {tokenData.exp && (tokenData.exp * 1000) > Date.now() ? 'Valid' : 'Expired'}
+                                                        {tokenIsValid ? 'Valid' : 'Expired'}
                                                     </span>
                                                 </div>
                                                 <div className="flex justify-between">

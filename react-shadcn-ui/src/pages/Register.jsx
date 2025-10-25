@@ -20,7 +20,7 @@ function Register() {
         setErrors({}); // Clear previous errors
 
         try {
-            const res = await api.post("/api/user/register/", { username, password });
+            await api.post("/api/user/register/", { username, password });
             navigate("/login");
         } catch (error) {
             if (error.response && error.response.status === 400 && error.response.data) {
