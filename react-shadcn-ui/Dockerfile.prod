@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Accept API base URL at build time so Vite can bake it into the bundle
-ARG VITE_API_URL
+# ARG VITE_API_URL
 ENV VITE_API_URL=${VITE_API_URL}
 
 # Install dependencies

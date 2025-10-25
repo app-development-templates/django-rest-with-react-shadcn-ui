@@ -18,6 +18,9 @@ RUN npm ci
 # Copy project files
 COPY . .
 
+# Set Vite API URL environment variable
+ENV VITE_API_URL="http://localhost:8000"
+
 # Expose port
 EXPOSE 3000
 
