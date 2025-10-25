@@ -52,6 +52,14 @@ services:
              python manage.py runserver 0.0.0.0:8000"
     networks:
       - app-network
+    labels:
+      - "dokploy.main-service=backend"
+      # Traefik labels for production routing
+      - "traefik.enable=true"
+      - "traefik.http.routers.backend.rule=Host(`backend.presentationlab.org`)"
+      - "traefik.http.routers.backend.entrypoints=websecure"
+      - "traefik.http.routers.backend.tls.certresolver=letsencrypt"
+      - "traefik.http.services.backend.loadbalancer.server.port=8000"
 
   # React Frontend
   frontend:
@@ -64,18 +72,18 @@ services:
     # Use expose instead of ports for Dokploy compatibility
     expose:
       - "3000"
-    environment:
-      - CHOKIDAR_USEPOLLING=true
-      - CHOKIDAR_INTERVAL=1000
-      - WATCHPACK_POLLING=true
     depends_on:
       - backend
-    ulimits:
-      nofile:
-        soft: 65536
-        hard: 65536
     networks:
       - app-network
+    labels:
+      - "dokploy.frontend=true"
+      # Traefik labels for production routing
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend.rule=Host(`frontend.presentationlab.org`)"
+      - "traefik.http.routers.frontend.entrypoints=websecure"
+      - "traefik.http.routers.frontend.tls.certresolver=letsencrypt"
+      - "traefik.http.services.frontend.loadbalancer.server.port=3000"
 
 volumes:
   postgres_data:
