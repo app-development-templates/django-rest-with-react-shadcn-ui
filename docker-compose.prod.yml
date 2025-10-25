@@ -89,7 +89,7 @@ services:
       context: ./react-shadcn-ui
       dockerfile: Dockerfile.prod
       args:
-        - VITE_API_URL=${VITE_API_URL}
+        - VITE_API_URL=https://backend.presentationlab.org
     restart: unless-stopped
     # Use expose instead of ports for Dokploy compatibility
     expose:
@@ -102,7 +102,7 @@ services:
       - "dokploy.frontend=true"
       # Traefik labels for production routing
       - "traefik.enable=true"
-      - "traefik.http.routers.frontend.rule=Host(`${DOCKPLOY_FRONTEND_HOST}`)"
+      - "traefik.http.routers.frontend.rule=Host(`frontend.presentationlab.org`)"
       - "traefik.http.routers.frontend.entrypoints=websecure"
       - "traefik.http.routers.frontend.tls.certresolver=letsencrypt"
       - "traefik.http.services.frontend.loadbalancer.server.port=3000"
