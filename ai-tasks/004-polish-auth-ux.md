@@ -6,7 +6,7 @@ Tighten up the login and register flows by removing unused variables and surfaci
 ## Status
 - [x] Removed unused response assignment in `Register.jsx` during earlier cleanup.
 - [x] Replaced alert handling in `Login.jsx` with inline error UI matching register form and clearing state on submit.
-- [ ] Add on-change error clearing for tighter UX polish.
+- [x] Add on-change error clearing for tighter UX polish.
 - [x] Verified forms show API errors inline and lint stays clean.
 
 ## Steps
