@@ -97,10 +97,10 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# Default to SQLite locally; set USE_SQLITE_DB=false to target Postgres
-use_sqlite = os.getenv('USE_SQLITE_DB', 'true').lower() in ('true', '1', 'yes', 'on')
+# Default to SQLite locally; set DEBUG_MODE=false to target Postgres
+debug_mode = os.getenv('DEBUG_MODE', 'true').lower() in ('true', '1', 'yes', 'on')
 
-if use_sqlite:
+if debug_mode:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
