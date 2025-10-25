@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import api from "../api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -98,6 +98,11 @@ function Register() {
                             {loading ? "Creating account..." : "Register"}
                         </Button>
                     </form>
+                    <div className="mt-6 text-center">
+                        <Button variant="link" asChild>
+                            <Link to="/login">Back to login</Link>
+                        </Button>
+                    </div>
                 </CardContent>
             </Card>
         </div>
