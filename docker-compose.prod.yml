@@ -48,19 +48,19 @@ services:
     build:
       context: ./django-rest-api
       dockerfile: Dockerfile
+      args:
+        - DEBUG=${DEBUG}
+        - DB_HOST=db
+        - DB_PORT=5432
+        - DB_NAME=${DB_NAME}
+        - DB_USER=${DB_USER}
+        - DB_PASSWORD=${DB_PASSWORD}
+        - SECRET_KEY=${SECRET_KEY}
+        - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+        - CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS}
+        - CSRF_TRUSTED_ORIGINS=${CSRF_TRUSTED_ORIGINS}
     restart: unless-stopped
     # Use expose instead of ports for Dokploy compatibility
-    args:
-      - DEBUG=${DEBUG}
-      - DB_HOST=db
-      - DB_PORT=5432
-      - DB_NAME=${DB_NAME}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - SECRET_KEY=${SECRET_KEY}
-      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
-      - CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS}
-      - CSRF_TRUSTED_ORIGINS=${CSRF_TRUSTED_ORIGINS}
     expose:
       - "8000"
     depends_on:
