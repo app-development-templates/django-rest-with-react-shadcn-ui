@@ -5,9 +5,9 @@ FROM node:20-alpine
 WORKDIR /app
 
 # Set environment variables to handle file watching
-ENV CHOKIDAR_USEPOLLING=true
-ENV CHOKIDAR_INTERVAL=1000
-ENV WATCHPACK_POLLING=true
+ENV CHOKIDAR_USEPOLLING=true \
+	CHOKIDAR_INTERVAL=1000 \
+	WATCHPACK_POLLING=true
 
 # Copy package.json and package-lock.json (if available)
 COPY package*.json ./
@@ -17,9 +17,6 @@ RUN npm ci
 
 # Copy project files
 COPY . .
-
-# Build the application for production (commented out for development mode)
-# RUN npm run build
 
 # Expose port
 EXPOSE 3000
