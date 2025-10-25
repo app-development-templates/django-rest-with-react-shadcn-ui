@@ -50,7 +50,7 @@ services:
       dockerfile: Dockerfile
     restart: unless-stopped
     # Use expose instead of ports for Dokploy compatibility
-    environment:
+    args:
       - DEBUG=${DEBUG}
       - DB_HOST=db
       - DB_PORT=5432
@@ -78,7 +78,7 @@ services:
       - "dokploy.main-service=backend"
       # Traefik labels for production routing
       - "traefik.enable=true"
-      - "traefik.http.routers.backend.rule=Host(`${DOCKPLOY_BACKEND_HOST}`)"
+      - "traefik.http.routers.backend.rule=Host(`backend.presentationlab.org`)"
       - "traefik.http.routers.backend.entrypoints=websecure"
       - "traefik.http.routers.backend.tls.certresolver=letsencrypt"
       - "traefik.http.services.backend.loadbalancer.server.port=8000"
