@@ -73,7 +73,6 @@ services:
     expose:
       - "3000"
     environment:
-      - VITE_API_URL=${VITE_API_URL}
       - CHOKIDAR_USEPOLLING=true
       - CHOKIDAR_INTERVAL=1000
       - WATCHPACK_POLLING=true
