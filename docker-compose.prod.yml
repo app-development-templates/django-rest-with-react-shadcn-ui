@@ -11,8 +11,6 @@
 ## Backend settings
 # SECRET_KEY=random-secret-key-*$&*#@!HDU@D&*@$G@!*&H*D&H& 
 
-
-
 services:
   # PostgreSQL Database
   db:
