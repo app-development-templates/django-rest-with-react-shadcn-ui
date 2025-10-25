@@ -181,3 +181,7 @@ else:
     CORS_ALLOW_ALL_ORIGINS = False
 
 CORS_ALLOW_CREDENTIALS = True
+
+csrf_origins = os.getenv('CSRF_TRUSTED_ORIGINS', 'http://localhost:8000')
+if csrf_origins:
+    CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in csrf_origins.split(',') if origin.strip()]
