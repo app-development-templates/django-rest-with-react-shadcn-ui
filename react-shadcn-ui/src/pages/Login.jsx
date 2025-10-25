@@ -12,11 +12,23 @@ function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    const handleUsernameChange = (e) => {
+        if (error) setError(null);
+        setUsername(e.target.value);
+    };
+
+    const handlePasswordChange = (e) => {
+        if (error) setError(null);
+        setPassword(e.target.value);
+    };
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
-        setLoading(true);
         e.preventDefault();
+        setError(null);
+        setLoading(true);
 
         try {
             const res = await api.post("/api/token/", { username, password });
@@ -24,7 +36,12 @@ function Login() {
             localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
             navigate("/");
         } catch (error) {
-            alert(error);
+            if (error.response && error.response.data) {
+                const { detail } = error.response.data;
+                setError(detail || "Unable to sign in. Please try again.");
+            } else {
+                setError("Unable to sign in. Please try again.");
+            }
         } finally {
             setLoading(false);
         }
@@ -47,7 +64,7 @@ function Login() {
                                 id="username"
                                 type="text"
                                 value={username}
-                                onChange={(e) => setUsername(e.target.value)}
+                                onChange={handleUsernameChange}
                                 placeholder="Enter your username"
                                 required
                             />
@@ -58,11 +75,16 @@ function Login() {
                                 id="password"
                                 type="password"
                                 value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                                onChange={handlePasswordChange}
                                 placeholder="Enter your password"
                                 required
                             />
                         </div>
+                        {error && (
+                            <div className="p-3 bg-red-50 border border-red-200 rounded-md text-sm text-red-600">
+                                {error}
+                            </div>
+                        )}
                         {loading && (
                             <div className="flex justify-center">
                                 <Spinner />
