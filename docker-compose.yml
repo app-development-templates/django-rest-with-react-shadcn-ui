@@ -65,7 +65,7 @@ services:
   frontend:
     build:
       context: ./react-shadcn-ui
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     restart: unless-stopped
     # Use expose instead of ports for Dokploy compatibility
     expose:
