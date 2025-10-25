@@ -14,8 +14,6 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./init-db:/docker-entrypoint-initdb.d
-    networks:
-      - app-network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-coursesapp}"]
       interval: 30s
@@ -51,8 +49,6 @@ services:
              python manage.py collectstatic --noinput &&
              python manage.py create_default_superuser &&
              python manage.py runserver 0.0.0.0:8000"
-    networks:
-      - app-network
     labels:
       - "dokploy.main-service=backend"
       # Traefik labels for production routing
@@ -82,8 +78,6 @@ services:
       nofile:
         soft: 65536
         hard: 65536
-    networks:
-      - app-network
     labels:
       - "dokploy.frontend=true"
       # Traefik labels for production routing
@@ -95,9 +89,3 @@ services:
 
 volumes:
   postgres_data:
-
-networks:
-  app-network:
-    driver: bridge
-  dokploy-network:
-    external: true
