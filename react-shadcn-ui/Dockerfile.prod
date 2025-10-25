@@ -1,15 +1,15 @@
 # Multi-stage build for production
 FROM node:20-alpine as build
 
+# Accept API base URL at build time so Vite can bake it into the bundle
+ARG VITE_API_URL
+ENV VITE_API_URL=${VITE_API_URL}
+
 # Set working directory
 WORKDIR /app
 
 # Copy package files
 COPY package*.json ./
-
-# Accept API base URL at build time so Vite can bake it into the bundle
-# ARG VITE_API_URL
-ENV VITE_API_URL=${VITE_API_URL}
 
 # Install dependencies
 RUN npm ci
