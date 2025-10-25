@@ -1,12 +1,22 @@
+# Environment variables template
+# Copy this file to .env and fill in the actual values before deploying with Dokploy
+# DB_NAME: Name of the PostgreSQL database
+# DB_USER: PostgreSQL database user
+# DB_PASSWORD: Password for the PostgreSQL database user
+#
+#
+# Frontend
+# VITE_API_URL: URL of the backend API (e.g., https://backend.presentationlab.org)
+
 services:
   # PostgreSQL Database
   db:
     image: postgres:17-alpine
     restart: unless-stopped
     environment:
-      POSTGRES_DB: ${DB_NAME:-coursesapp}
-      POSTGRES_USER: ${DB_USER:-postgres}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-coursesapp123}
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256 --auth-local=scram-sha-256"
     # Remove fixed port mapping for production deployment
     # ports:
@@ -16,7 +26,7 @@ services:
     networks:
       - app-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-coursesapp}"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -28,19 +38,17 @@ services:
       dockerfile: Dockerfile
     restart: unless-stopped
     # Use expose instead of ports for Dokploy compatibility
+    args:
+      - DEBUG=${DEBUG}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - SECRET_KEY=${SECRET_KEY}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+      - CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS}
+      - CSRF_TRUSTED_ORIGINS=${CSRF_TRUSTED_ORIGINS}
     expose:
       - "8000"
-    environment:
-      - DEBUG=${DEBUG:-0}
-      - DB_HOST=db
-      - DB_PORT=5432
-      - DB_NAME=${DB_NAME:-coursesapp}
-      - DB_USER=${DB_USER:-postgres}
-      - DB_PASSWORD=${DB_PASSWORD:-coursesapp123}
-      - SECRET_KEY=${SECRET_KEY:-change-me-in-production}
-      - ALLOWED_HOSTS=${ALLOWED_HOSTS:-*}
-      - CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS:-http://localhost:3000}
-      - CSRF_TRUSTED_ORIGINS=${CSRF_TRUSTED_ORIGINS:-http://localhost:8000}
     depends_on:
       db:
         condition: service_healthy
@@ -67,7 +75,7 @@ services:
       context: ./react-shadcn-ui
       dockerfile: Dockerfile.prod
       args:
-        - VITE_API_URL=${VITE_API_URL}
+        - VITE_API_URL=https://${VITE_API_URL}
     restart: unless-stopped
     # Use expose instead of ports for Dokploy compatibility
     expose:

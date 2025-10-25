@@ -14,6 +14,6 @@ Ensure all sensitive Django settings for the backend container are sourced from 
 2. **Harden Settings Fallbacks**
    - Update `django-rest-api/backend/backend/settings.py` so production-critical values fail fast when not provided (e.g., raise an exception if `SECRET_KEY` still equals the development placeholder while `DEBUG` is false).
 3. **Document Runtime Expectations**
-   - Record the required variable names and formats in release notes so future Dokploy deployments supply the same contract.
+   - Record the required variable names and formats in .env-example in django-rest-api folder so future Dokploy deployments supply the same contract.
 4. **Runtime Verification**
    - Deploy a staging stack through Dokploy with only the Dokploy-provided variables and confirm Django starts without relying on hard-coded fallbacks.
