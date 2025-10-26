@@ -21,8 +21,6 @@
 # ENABLE_HSTS=false
 
 ## Frontend settings
-# VITE_ACCESS_TOKEN_KEY=access_token
-# VITE_REFRESH_TOKEN_KEY=refresh_token
 # VITE_ACCESS_TOKEN_TTL_MINUTES=15
 # VITE_REFRESH_TOKEN_TTL_DAYS=7
 
@@ -101,8 +99,6 @@ services:
       dockerfile: Dockerfile.prod
       args:
         - VITE_API_URL=https://${DOCKPLOY_BACKEND_HOST}
-        - VITE_ACCESS_TOKEN_KEY=${VITE_ACCESS_TOKEN_KEY:-access_token}
-        - VITE_REFRESH_TOKEN_KEY=${VITE_REFRESH_TOKEN_KEY:-refresh_token}
         - VITE_ACCESS_TOKEN_TTL_MINUTES=${ACCESS_TOKEN_LIFETIME:-15}
         - VITE_REFRESH_TOKEN_TTL_DAYS=${REFRESH_TOKEN_LIFETIME:-7}
     restart: unless-stopped

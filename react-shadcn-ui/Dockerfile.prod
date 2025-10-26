@@ -4,14 +4,10 @@ FROM node:20-alpine as build
 
 # Accept API base URL and token metadata at build time so Vite can bake them into the bundle
 ARG VITE_API_URL
-ARG VITE_ACCESS_TOKEN_KEY=access_token
-ARG VITE_REFRESH_TOKEN_KEY=refresh_token
 ARG VITE_ACCESS_TOKEN_TTL_MINUTES=15
 ARG VITE_REFRESH_TOKEN_TTL_DAYS=7
 
 ENV VITE_API_URL=${VITE_API_URL}
-ENV VITE_ACCESS_TOKEN_KEY=${VITE_ACCESS_TOKEN_KEY}
-ENV VITE_REFRESH_TOKEN_KEY=${VITE_REFRESH_TOKEN_KEY}
 ENV VITE_ACCESS_TOKEN_TTL_MINUTES=${VITE_ACCESS_TOKEN_TTL_MINUTES}
 ENV VITE_REFRESH_TOKEN_TTL_DAYS=${VITE_REFRESH_TOKEN_TTL_DAYS}
 
@@ -30,8 +26,6 @@ COPY . .
 # Persist provided environment variables into a .env file consumed by Vite's build
 RUN rm -f .env && touch .env \
 	&& { [ -n "$VITE_API_URL" ] && echo "VITE_API_URL=$VITE_API_URL" >> .env; } \
-	&& { [ -n "$VITE_ACCESS_TOKEN_KEY" ] && echo "VITE_ACCESS_TOKEN_KEY=$VITE_ACCESS_TOKEN_KEY" >> .env; } \
-	&& { [ -n "$VITE_REFRESH_TOKEN_KEY" ] && echo "VITE_REFRESH_TOKEN_KEY=$VITE_REFRESH_TOKEN_KEY" >> .env; } \
 	&& { [ -n "$VITE_ACCESS_TOKEN_TTL_MINUTES" ] && echo "VITE_ACCESS_TOKEN_TTL_MINUTES=$VITE_ACCESS_TOKEN_TTL_MINUTES" >> .env; } \
 	&& { [ -n "$VITE_REFRESH_TOKEN_TTL_DAYS" ] && echo "VITE_REFRESH_TOKEN_TTL_DAYS=$VITE_REFRESH_TOKEN_TTL_DAYS" >> .env; }
 
