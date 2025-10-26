@@ -12,9 +12,9 @@
 # SECRET_KEY=random-secret-key-*$&*#@!HDU@D&*@$G@!*&H*D&H& 
 # JWT_SIGNING_KEY=random-jwt-signing-key-*$&*#@!HDU@D&*@$G@!*&H*D&H&
 #
-## Backend Super user
+## Backend Super user (Only for initial setup of the db)
 # DJANGO_SUPERUSER_USERNAME=maxuli
-# DJANGO_SUPERUSER_PASSWORD='asdfgh1'
+# DJANGO_SUPERUSER_PASSWORD='asdfghj1'
 # DJANGO_SUPERUSER_EMAIL=maxuli@example.com
 #
 ## Backend security settings OPTIONAL 
