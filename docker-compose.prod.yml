@@ -11,16 +11,24 @@
 ## Backend settings
 # SECRET_KEY=random-secret-key-*$&*#@!HDU@D&*@$G@!*&H*D&H& 
 # JWT_SIGNING_KEY=random-jwt-signing-key-*$&*#@!HDU@D&*@$G@!*&H*D&H&
-# ACCESS_TOKEN_LIFETIME=15
-# REFRESH_TOKEN_LIFETIME=7
+#
+## Backend security settings OPTIONAL 
 # DRF_THROTTLE_RATE_ANON=20/min
 # DRF_THROTTLE_RATE_USER=120/min
-## Backend OPTIONAL security settings
 # JWT_ALGORITHM=HS256
 # X_FRAME_OPTIONS=SAMEORIGIN/DENY
 # ENABLE_HSTS=false
+#
+## JWT settings OPTIONAL
+# ACCESS_TOKEN_LIFETIME=15
+# REFRESH_TOKEN_LIFETIME=7
+#
+## Backend database OPTIONAL
+# DB_SSLMODE=require
+# DB_TARGET_SESSION_ATTRS=read-write
 
-## Frontend settings
+
+## Frontend settings OPTIONAL
 # VITE_ACCESS_TOKEN_TTL_MINUTES=15
 # VITE_REFRESH_TOKEN_TTL_DAYS=7
 

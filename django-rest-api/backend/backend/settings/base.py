@@ -130,6 +130,18 @@ else:
         }
     }
 
+DATABASES["default"]["ATOMIC_REQUESTS"] = env_bool("DB_ATOMIC_REQUESTS", True)
+
+if DATABASES["default"]["ENGINE"] == "django.db.backends.postgresql":
+    options = DATABASES["default"].setdefault("OPTIONS", {})
+    options.setdefault("sslmode", os.getenv("DB_SSLMODE", "prefer"))
+    target_session_attrs = os.getenv("DB_TARGET_SESSION_ATTRS")
+    if target_session_attrs:
+        options["target_session_attrs"] = target_session_attrs
+else:
+    # Use in-memory transactions per request for sqlite to avoid locking issues in dev
+    DATABASES["default"]["CONN_MAX_AGE"] = 0
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",

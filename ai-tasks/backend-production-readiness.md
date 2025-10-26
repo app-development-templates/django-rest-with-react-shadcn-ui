@@ -24,9 +24,9 @@
 	- [x] Add DRF throttling classes (e.g. `UserRateThrottle`, `AnonRateThrottle`) to `REST_FRAMEWORK` with env-configurable rates to protect login and registration endpoints.
 
 6. Fortify Database Configuration
-	- Drop the SQLite branch in `backend/backend/settings.py` for production runs; instead rely on a single Postgres configuration sourced from either discrete vars
-	- Provide an explicit `CONN_MAX_AGE` (>0) and `OPTIONS` (sslmode, target session attrs) tuned for managed Postgres services.
-	- Add a `DATABASES['default']['ATOMIC_REQUESTS']=True` toggle to simplify transaction handling for the API layer.
+	- [x] Drop the SQLite branch in `backend/backend/settings.py` for production runs; instead rely on a single Postgres configuration sourced from either discrete vars
+	- [x] Provide an explicit `CONN_MAX_AGE` (>0) and `OPTIONS` (sslmode, target session attrs) tuned for managed Postgres services.
+	- [x] Add a `DATABASES['default']['ATOMIC_REQUESTS']=True` toggle to simplify transaction handling for the API layer.
 
 7. Replace Insecure Superuser Bootstrap
 	- Refactor `api/management/commands/create_default_superuser.py` to read credentials from env vars (e.g. `DJANGO_SUPERUSER_USERNAME`, etc.) and exit early when absent.
