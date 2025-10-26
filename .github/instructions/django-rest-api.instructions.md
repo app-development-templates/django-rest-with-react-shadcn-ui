@@ -21,8 +21,6 @@ This project uses the following core libraries and their specific configurations
 
 ### CORS Support
 - **django-cors-headers 4.9.0**: Handles Cross-Origin Resource Sharing
-  - Currently configured to allow all origins (`CORS_ALLOW_ALL_ORIGINS = True`)
-  - Credentials are allowed (`CORS_ALLOW_CREDENTIALS = True`)
 
 ### Database
 - **SQLite3**: Default database (built-in with Django)
@@ -62,13 +60,12 @@ This project uses the following core libraries and their specific configurations
 
 2. **Authentication Settings**:
    - Never disable JWT authentication in production
-   - Always maintain secure token lifetimes (current: 30min access, 1day refresh)
+   - Always maintain secure token lifetimes (current: 30min access, 1day refresh) !!! UPDATE HERE IF CHANGED !!!
    - Preserve the JWT configuration in `settings.py`
 
 3. **CORS Configuration**:
    - Review CORS settings before production deployment
    - `CORS_ALLOW_ALL_ORIGINS = True` is for development only
-   - Update to specific origins for production
 
 4. **Database Changes**:
    - Always create and run migrations for model changes

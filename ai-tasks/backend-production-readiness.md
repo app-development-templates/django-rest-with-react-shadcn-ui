@@ -4,14 +4,14 @@
 	- [x] Collapse `DEBUG` and `DEBUG_MODE` into a single flag sourced from `ENVIRONMENT` (`development`/`production`) and fail fast if `DEBUG` is still `True` when `ENVIRONMENT=production`.
 
 2. Require Explicit Host & Origin Whitelists
-	- Update `ALLOWED_HOSTS` in `backend/backend/settings.py` to reject `*`; load comma-separated hosts from `ALLOWED_HOSTS` and validate the list at boot time.
-	- Replace the `CORS_ALLOW_ALL_ORIGINS` path with `CORS_ALLOWED_ORIGINS` only; ingest these from `CORS_ALLOWED_ORIGINS` and error when unset in production.
-	- Add validation around `CSRF_TRUSTED_ORIGINS` to ensure schemes are present (`https://`), especially for Dokploy deployments.
+	- [x] Update `ALLOWED_HOSTS` in `backend/backend/settings.py` to reject `*`; load comma-separated hosts from `ALLOWED_HOSTS` and validate the list at boot time.
+	- [x] Replace the `CORS_ALLOW_ALL_ORIGINS` path with `CORS_ALLOWED_ORIGINS` only; ingest these from `CORS_ALLOWED_ORIGINS` and error when unset in production.
+	- [x] Add validation around `CSRF_TRUSTED_ORIGINS` to ensure schemes are present (`https://`), especially for Dokploy deployments.
 
 3. Switch the Container Entry Point to Gunicorn
-	- Add a `gunicorn.conf.py` (or equivalent CLI flags) in `django-rest-api/backend/` to define workers, threads, timeouts, and access/error log locations.
-	- Update `django-rest-api/Dockerfile` and `docker-compose.prod.yml` commands so the container executes `gunicorn backend.wsgi:application --config gunicorn.conf.py` after migrations and static collection.
-	- Ensure the container exposes Prometheus-style Gunicorn metrics or logs compatible with Dokploy monitoring (stdout JSON or log files mounted to a volume).
+	- [x] Add a `gunicorn.conf.py` (or equivalent CLI flags) in `django-rest-api/backend/` to define workers, threads, timeouts, and access/error log locations.
+	- [x] Update `django-rest-api/Dockerfile` and `docker-compose.prod.yml` commands so the container executes `gunicorn backend.wsgi:application --config gunicorn.conf.py` after migrations and static collection.
+	- [x] Ensure the container exposes Prometheus-style Gunicorn metrics or logs compatible with Dokploy monitoring (stdout JSON or log files mounted to a volume).
 
 4. Harden Django Security Settings
 	- Set `SECURE_SSL_REDIRECT=True`, `SECURE_PROXY_SSL_HEADER=('HTTP_X_FORWARDED_PROTO', 'https')`, and enable `SESSION_COOKIE_SECURE`, `CSRF_COOKIE_SECURE`, and `CSRF_COOKIE_HTTPONLY` in the production settings profile.
