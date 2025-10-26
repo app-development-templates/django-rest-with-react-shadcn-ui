@@ -1,14 +1,14 @@
 import { useCallback } from "react";
 import { jwtDecode } from "jwt-decode";
 import api from "../api";
-import { REFRESH_TOKEN, ACCESS_TOKEN } from "../constants";
+import { REFRESH_TOKEN_KEY, ACCESS_TOKEN_KEY } from "../constants";
 
 /**
  * Shared logic to validate and refresh JWT tokens for route guards.
  */
 export function useAuthGuard() {
   const refreshAccessToken = useCallback(async () => {
-    const refreshToken = localStorage.getItem(REFRESH_TOKEN);
+  const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY);
     if (!refreshToken) {
       return false;
     }
@@ -19,7 +19,7 @@ export function useAuthGuard() {
       });
 
       if (res.status === 200) {
-        localStorage.setItem(ACCESS_TOKEN, res.data.access);
+  localStorage.setItem(ACCESS_TOKEN_KEY, res.data.access);
         return true;
       }
     } catch (error) {
@@ -30,7 +30,7 @@ export function useAuthGuard() {
   }, []);
 
   const evaluateAuthorization = useCallback(async () => {
-    const token = localStorage.getItem(ACCESS_TOKEN);
+  const token = localStorage.getItem(ACCESS_TOKEN_KEY);
     if (!token) {
       return false;
     }

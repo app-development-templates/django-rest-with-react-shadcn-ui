@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api";
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
+import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "../constants";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -32,8 +32,8 @@ function Login() {
 
         try {
             const res = await api.post("/api/token/", { username, password });
-            localStorage.setItem(ACCESS_TOKEN, res.data.access);
-            localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
+            localStorage.setItem(ACCESS_TOKEN_KEY, res.data.access);
+            localStorage.setItem(REFRESH_TOKEN_KEY, res.data.refresh);
             navigate("/");
         } catch (error) {
             if (error.response && error.response.data) {

@@ -2,6 +2,8 @@
 
 import os
 
+from datetime import timedelta
+
 from django.core.exceptions import ImproperlyConfigured
 
 from .base import *  # noqa
@@ -66,3 +68,11 @@ else:
     SECURE_HSTS_PRELOAD = False
 
 SECURE_CONTENT_TYPE_NOSNIFF = True
+
+SIMPLE_JWT["ACCESS_TOKEN_LIFETIME"] = timedelta(
+    minutes=int(os.getenv("ACCESS_TOKEN_LIFETIME", "15"))
+)
+SIMPLE_JWT["REFRESH_TOKEN_LIFETIME"] = timedelta(
+    days=int(os.getenv("REFRESH_TOKEN_LIFETIME", "7"))
+)
+SIMPLE_JWT["SIGNING_KEY"] = os.getenv("JWT_SIGNING_KEY", SECRET_KEY)

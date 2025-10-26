@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ACCESS_TOKEN } from "../constants";
+import { ACCESS_TOKEN_KEY } from "../constants";
 
 function UserSettings() {
     const [tokenData, setTokenData] = useState(null);
@@ -11,7 +11,7 @@ function UserSettings() {
     useEffect(() => {
         const getTokenData = () => {
             try {
-                const token = localStorage.getItem(ACCESS_TOKEN);
+                const token = localStorage.getItem(ACCESS_TOKEN_KEY);
                 if (!token) {
                     setError("No access token found");
                     return;

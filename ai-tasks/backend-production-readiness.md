@@ -19,12 +19,12 @@
 	- [x] Enable `SECURE_REFERRER_POLICY='strict-origin-when-cross-origin'` and `X_FRAME_OPTIONS='DENY'` if iframe support is not required.
 
 5. Tighten JWT & Authentication Defaults
-	- Parameterize `SIMPLE_JWT` lifetimes via env vars (`ACCESS_TOKEN_LIFETIME`, `REFRESH_TOKEN_LIFETIME`) and shorten production tokens (e.g. 15 minutes / 7 days) for better revocation posture.
-	- Configure `SIGNING_KEY` to use the Django `SECRET_KEY` or an isolated secret and ensure `ALGORITHM` is consistent across environments.
-	- Add DRF throttling classes (e.g. `UserRateThrottle`, `AnonRateThrottle`) to `REST_FRAMEWORK` with env-configurable rates to protect login and registration endpoints.
+	- [x] Parameterize `SIMPLE_JWT` lifetimes via env vars (`ACCESS_TOKEN_LIFETIME`, `REFRESH_TOKEN_LIFETIME`) and shorten production tokens (e.g. 15 minutes / 7 days) for better revocation posture.
+	- [x] Configure `SIGNING_KEY` to use the Django `SECRET_KEY` or an isolated secret and ensure `ALGORITHM` is consistent across environments.
+	- [x] Add DRF throttling classes (e.g. `UserRateThrottle`, `AnonRateThrottle`) to `REST_FRAMEWORK` with env-configurable rates to protect login and registration endpoints.
 
 6. Fortify Database Configuration
-	- Drop the SQLite branch in `backend/backend/settings.py` for production runs; instead rely on a single Postgres configuration sourced from either discrete vars or `DATABASE_URL`.
+	- Drop the SQLite branch in `backend/backend/settings.py` for production runs; instead rely on a single Postgres configuration sourced from either discrete vars
 	- Provide an explicit `CONN_MAX_AGE` (>0) and `OPTIONS` (sslmode, target session attrs) tuned for managed Postgres services.
 	- Add a `DATABASES['default']['ATOMIC_REQUESTS']=True` toggle to simplify transaction handling for the API layer.
 
