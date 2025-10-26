@@ -29,9 +29,9 @@
 	- [x] Add a `DATABASES['default']['ATOMIC_REQUESTS']=True` toggle to simplify transaction handling for the API layer.
 
 7. Replace Insecure Superuser Bootstrap
-	- Refactor `api/management/commands/create_default_superuser.py` to read credentials from env vars (e.g. `DJANGO_SUPERUSER_USERNAME`, etc.) and exit early when absent.
-	- Guard the command behind `ENVIRONMENT != 'production'` or convert it to an idempotent signal executed during deploys with secure passwords provided by Dokploy secrets.
-	- Remove the hard-coded default password and document the new provisioning flow in `django-rest-api/README.md`.
+	- [x] Refactor `api/management/commands/create_default_superuser.py` to read credentials from env vars (e.g. `DJANGO_SUPERUSER_USERNAME`, etc.) and exit early when absent.
+	- [x] Guard the command behind `ENVIRONMENT != 'production'` or convert it to an idempotent signal executed during deploys with secure passwords provided by Dokploy secrets.
+	- [x] Remove the hard-coded default password and document the new provisioning flow in `django-rest-api/README.md`.
 
 8. Introduce Structured Logging & Health Probes
 	- Define a `LOGGING` dict in settings that emits JSON-formatted logs for `django`, `gunicorn`, and application namespaces; route access logs to stdout for Dokploy ingestion.

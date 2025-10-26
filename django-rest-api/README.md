@@ -16,7 +16,7 @@ python3 manage.py runserver
 
 ## Superuser Provisioning
 
-The `create_default_superuser` management command reads credentials from environment variables and skips execution when they are missing. It also exits without action when `ENVIRONMENT=production` to avoid provisioning insecure accounts in live deployments.
+The `create_default_superuser` management command reads credentials from environment variables and skips execution when they are missing. When `ENVIRONMENT=production`, it still runs but emits a warning so you can verify that secure secrets are configured before provisioning the account.
 
 Set the credentials before running the command:
 
@@ -27,7 +27,7 @@ export DJANGO_SUPERUSER_EMAIL=admin@example.com
 python3 manage.py create_default_superuser
 ```
 
-You can optionally override the environment variables with command-line flags (`--username`, `--password`, `--email`) during local development.
+You can optionally override the environment variables with command-line flags (`--username`, `--password`, `--email`) during local development. In production, source the variables from secured deployment secrets (e.g. Dokploy) before invoking the command.
 
 
 

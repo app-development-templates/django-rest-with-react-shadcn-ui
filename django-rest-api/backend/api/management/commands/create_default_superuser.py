@@ -31,10 +31,9 @@ class Command(BaseCommand):
         if environment == "production":
             self.stdout.write(
                 self.style.WARNING(
-                    "Skipping superuser creation because ENVIRONMENT is set to 'production'."
+                    "ENVIRONMENT is 'production'; proceeding with superuser creation using provided credentials."
                 )
             )
-            return
 
         username = os.getenv("DJANGO_SUPERUSER_USERNAME") or options.get("username")
         password = os.getenv("DJANGO_SUPERUSER_PASSWORD") or options.get("password")
@@ -75,13 +74,13 @@ class Command(BaseCommand):
                 email=email,
                 password=password,
             )
-            
+
             self.stdout.write(
                 self.style.SUCCESS(
                     f'Successfully created superuser "{username}"'
                 )
             )
-            
+
         except IntegrityError as e:
             raise CommandError(f"Error creating superuser: {e}") from e
         except Exception as e:
