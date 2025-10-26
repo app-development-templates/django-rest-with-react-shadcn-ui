@@ -35,6 +35,10 @@ def _split_env_list(value: str) -> List[str]:
     return [item.strip() for item in value.split(",") if item.strip()]
 
 
+def env_bool(name: str, default: bool) -> bool:
+    return os.getenv(name, str(default)).lower() in {"true", "1", "yes", "on"}
+
+
 ALLOWED_HOSTS_RAW = os.getenv("ALLOWED_HOSTS", "").strip()
 if ALLOWED_HOSTS_RAW:
     ALLOWED_HOSTS: List[str] = _split_env_list(ALLOWED_HOSTS_RAW)

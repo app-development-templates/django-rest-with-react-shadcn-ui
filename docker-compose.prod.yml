@@ -10,6 +10,8 @@
 #
 ## Backend settings
 # SECRET_KEY=random-secret-key-*$&*#@!HDU@D&*@$G@!*&H*D&H& 
+# X_FRAME_OPTIONS=SAMEORIGIN/DENY
+# ENABLE_HSTS=false
 
 services:
   # PostgreSQL Database

@@ -14,9 +14,9 @@
 	- [x] Ensure the container exposes Prometheus-style Gunicorn metrics or logs compatible with Dokploy monitoring (stdout JSON or log files mounted to a volume).
 
 4. Harden Django Security Settings
-	- Set `SECURE_SSL_REDIRECT=True`, `SECURE_PROXY_SSL_HEADER=('HTTP_X_FORWARDED_PROTO', 'https')`, and enable `SESSION_COOKIE_SECURE`, `CSRF_COOKIE_SECURE`, and `CSRF_COOKIE_HTTPONLY` in the production settings profile.
-	- Configure `SECURE_HSTS_SECONDS` (e.g. 31536000), `SECURE_HSTS_INCLUDE_SUBDOMAINS`, and `SECURE_HSTS_PRELOAD` once TLS is confirmed; gate these behind an env var for staged rollout.
-	- Enable `SECURE_REFERRER_POLICY='strict-origin-when-cross-origin'` and `X_FRAME_OPTIONS='DENY'` if iframe support is not required.
+	- [x] Set `SECURE_SSL_REDIRECT=True`, `SECURE_PROXY_SSL_HEADER=('HTTP_X_FORWARDED_PROTO', 'https')`, and enable `SESSION_COOKIE_SECURE`, `CSRF_COOKIE_SECURE`, and `CSRF_COOKIE_HTTPONLY` in the production settings profile.
+	- [x] Configure `SECURE_HSTS_SECONDS` (e.g. 31536000), `SECURE_HSTS_INCLUDE_SUBDOMAINS`, and `SECURE_HSTS_PRELOAD` once TLS is confirmed; gate these behind an env var for staged rollout.
+	- [x] Enable `SECURE_REFERRER_POLICY='strict-origin-when-cross-origin'` and `X_FRAME_OPTIONS='DENY'` if iframe support is not required.
 
 5. Tighten JWT & Authentication Defaults
 	- Parameterize `SIMPLE_JWT` lifetimes via env vars (`ACCESS_TOKEN_LIFETIME`, `REFRESH_TOKEN_LIFETIME`) and shorten production tokens (e.g. 15 minutes / 7 days) for better revocation posture.
