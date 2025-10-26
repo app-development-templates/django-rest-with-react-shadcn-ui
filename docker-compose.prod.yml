@@ -12,6 +12,11 @@
 # SECRET_KEY=random-secret-key-*$&*#@!HDU@D&*@$G@!*&H*D&H& 
 # JWT_SIGNING_KEY=random-jwt-signing-key-*$&*#@!HDU@D&*@$G@!*&H*D&H&
 #
+## Backend Super user
+# DJANGO_SUPERUSER_USERNAME=maxuli
+# DJANGO_SUPERUSER_PASSWORD='asdfgh1'
+# DJANGO_SUPERUSER_EMAIL=maxuli@example.com
+#
 ## Backend security settings OPTIONAL 
 # DRF_THROTTLE_RATE_ANON=20/min
 # DRF_THROTTLE_RATE_USER=120/min

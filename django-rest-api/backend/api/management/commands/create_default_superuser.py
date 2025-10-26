@@ -1,34 +1,63 @@
-from django.core.management.base import BaseCommand
+import os
+
+from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.core.management import CommandError
+from django.core.management.base import BaseCommand
 from django.db.utils import IntegrityError
 
 User = get_user_model()
 
 
 class Command(BaseCommand):
-    help = 'Create a default superuser if it does not exist'
+    help = "Create a default superuser if it does not exist"
 
     def add_arguments(self, parser):
         parser.add_argument(
-            '--username',
-            default='maxuli',
-            help='Username for the superuser (default: maxuli)'
+            "--username",
+            help="Optional override for DJANGO_SUPERUSER_USERNAME",
         )
         parser.add_argument(
-            '--password',
-            default='re8951276Q!',
-            help='Password for the superuser (default: re8951276Q!)'
+            "--password",
+            help="Optional override for DJANGO_SUPERUSER_PASSWORD",
         )
         parser.add_argument(
-            '--email',
-            default='maxuli@example.com',
-            help='Email for the superuser (default: maxuli@example.com)'
+            "--email",
+            help="Optional override for DJANGO_SUPERUSER_EMAIL",
         )
 
     def handle(self, *args, **options):
-        username = options['username']
-        password = options['password']
-        email = options['email']
+        environment = getattr(settings, "ENVIRONMENT", "development").lower()
+        if environment == "production":
+            self.stdout.write(
+                self.style.WARNING(
+                    "Skipping superuser creation because ENVIRONMENT is set to 'production'."
+                )
+            )
+            return
+
+        username = os.getenv("DJANGO_SUPERUSER_USERNAME") or options.get("username")
+        password = os.getenv("DJANGO_SUPERUSER_PASSWORD") or options.get("password")
+        email = os.getenv("DJANGO_SUPERUSER_EMAIL") or options.get("email")
+
+        missing = [
+            name
+            for name, value in (
+                ("DJANGO_SUPERUSER_USERNAME", username),
+                ("DJANGO_SUPERUSER_PASSWORD", password),
+                ("DJANGO_SUPERUSER_EMAIL", email),
+            )
+            if not value
+        ]
+
+        if missing:
+            self.stdout.write(
+                self.style.WARNING(
+                    "Skipping superuser creation; missing required env vars: "
+                    + ", ".join(missing)
+                )
+            )
+            return
 
         try:
             # Check if superuser already exists
@@ -41,10 +70,10 @@ class Command(BaseCommand):
                 return
 
             # Create the superuser
-            user = User.objects.create_superuser(
+            User.objects.create_superuser(
                 username=username,
                 email=email,
-                password=password
+                password=password,
             )
             
             self.stdout.write(
@@ -54,14 +83,6 @@ class Command(BaseCommand):
             )
             
         except IntegrityError as e:
-            self.stdout.write(
-                self.style.ERROR(
-                    f'Error creating superuser: {e}'
-                )
-            )
+            raise CommandError(f"Error creating superuser: {e}") from e
         except Exception as e:
-            self.stdout.write(
-                self.style.ERROR(
-                    f'Unexpected error creating superuser: {e}'
-                )
-            )
+            raise CommandError(f"Unexpected error creating superuser: {e}") from e
