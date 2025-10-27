@@ -11,3 +11,16 @@ docker run -it --rm -p 3000:3000 -e VITE_API_URL="http://localhost:8000" react-s
 #### Backend - Django REST API
 docker build -t django-rest-api-dev -f django-rest-api/Dockerfile django-rest-api
 docker run -it --rm -p 8000:8000 django-rest-api-dev
+
+
+
+
+#### Notes
+prompt pentru ai sa dea set de categori de produse care se gasesc in Altex
+Training Categorys:
+    -Televizoare, Casnice, IT
+
+
+produs
+    - titlu
+    - descriere

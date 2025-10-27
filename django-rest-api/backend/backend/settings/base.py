@@ -200,10 +200,12 @@ REST_FRAMEWORK = {
 
 default_server_urls = [url.strip() for url in os.getenv("OPENAPI_SERVER_URLS", "").split(",") if url.strip()]
 if not default_server_urls:
-    default_server_urls = [
-        "http://127.0.0.1:8000",
-        os.getenv("PUBLIC_API_BASE_URL", "https://backend.presentationlab.org"),
-    ]
+    default_server_urls = ["/"]
+    # Offer a convenience localhost entry while developing.
+    if DEBUG:
+        default_server_urls.append("http://127.0.0.1:8000")
+    else:
+        default_server_urls.append(os.getenv("PUBLIC_API_BASE_URL", "https://backend.presentationlab.org"))
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "Your Project API",
