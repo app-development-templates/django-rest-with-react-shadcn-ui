@@ -15,3 +15,11 @@ Content-Type: application/json
     "username": "test",
     "password": "test"
 }
+
+#### token refresh
+POST http://127.0.0.1:8000/api/user/token/refresh/
+Content-Type: application/json
+
+{
+  "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc2MjE4Mjc4NywiaWF0IjoxNzYxNTc3OTg3LCJqdGkiOiJkMDc4ZjVhNTZjNjA0NjM5YjZlZGM4MjcxOTI0YjZlNCIsInVzZXJfaWQiOiIzIiwidXNlcm5hbWUiOiJ0ZXN0IiwiZW1haWwiOiIiLCJmaXJzdF9uYW1lIjoiIiwibGFzdF9uYW1lIjoiIn0.aH4GTdrpHKK69CdH4KXBedTKDNWa7N75K7pMn7_wtjQ"
+}

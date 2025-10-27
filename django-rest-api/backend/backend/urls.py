@@ -16,9 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from rest_framework_simplejwt.views import TokenRefreshView
-
-from api.views import CreateUserView, CustomTokenObtainPairView
+from api.views import CreateUserView, CustomTokenObtainPairView, CustomTokenRefreshView
 
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
@@ -26,7 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/user/register/', CreateUserView.as_view(), name='create_user'),
     path('api/user/token/', CustomTokenObtainPairView.as_view(), name='get_token'),
-    path('api/user/token/refresh/', TokenRefreshView.as_view(), name='refresh'),
+    path('api/user/token/refresh/', CustomTokenRefreshView.as_view(), name='refresh'),
     path('api-auth/', include('rest_framework.urls')),  # Optional: for browsable API login/logout
 
     # YOUR PATTERNS
