@@ -20,10 +20,18 @@ from rest_framework_simplejwt.views import TokenRefreshView
 
 from api.views import CreateUserView, CustomTokenObtainPairView
 
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/user/register/', CreateUserView.as_view(), name='create_user'),
     path('api/user/token/', CustomTokenObtainPairView.as_view(), name='get_token'),
     path('api/user/token/refresh/', TokenRefreshView.as_view(), name='refresh'),
     path('api-auth/', include('rest_framework.urls')),  # Optional: for browsable API login/logout
+
+    # YOUR PATTERNS
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    # Optional UI:
+    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 ]

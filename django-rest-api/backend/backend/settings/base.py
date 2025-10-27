@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     "api",
     "rest_framework",
     "corsheaders",
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -194,6 +195,15 @@ REST_FRAMEWORK = {
         "anon": os.getenv("DRF_THROTTLE_RATE_ANON", "20/min"),
         "user": os.getenv("DRF_THROTTLE_RATE_USER", "120/min"),
     },
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Your Project API',
+    'DESCRIPTION': 'Your project description',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
 }
 
 SIMPLE_JWT = {
