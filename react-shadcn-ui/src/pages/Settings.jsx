@@ -60,7 +60,7 @@ function Settings() {
     const tokenIsValid = tokenData?.exp ? tokenData.exp > currentTime : false;
 
     return (
-        <div className="min-h-screen bg-gray-50 py-8">
+        <div className="min-h-screen bg-background py-8">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 <Card>
                     <CardHeader>
@@ -74,17 +74,17 @@ function Settings() {
                             <h3 className="text-lg font-medium mb-4">Access Token Information</h3>
                             
                             {error ? (
-                                <div className="p-4 bg-red-50 border border-red-200 rounded-md">
-                                    <p className="text-red-600">{error}</p>
+                                <div className="rounded-md border border-destructive/40 bg-destructive/10 p-4">
+                                    <p className="text-destructive">{error}</p>
                                 </div>
                             ) : tokenData ? (
                                 <div className="space-y-4">
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div className="p-4 bg-white border rounded-md">
-                                            <h4 className="font-medium text-gray-900 mb-2">Token Status</h4>
+                                        <div className="rounded-md border bg-card p-4">
+                                            <h4 className="mb-2 font-medium text-foreground">Token Status</h4>
                                             <div className="space-y-2 text-sm">
                                                 <div className="flex justify-between">
-                                                    <span className="text-gray-600">Status:</span>
+                                                    <span className="text-muted-foreground">Status:</span>
                                                     <span className={`font-medium ${
                                                         tokenIsValid 
                                                             ? 'text-green-600' 
@@ -94,65 +94,65 @@ function Settings() {
                                                     </span>
                                                 </div>
                                                 <div className="flex justify-between">
-                                                    <span className="text-gray-600">Time Remaining:</span>
+                                                    <span className="text-muted-foreground">Time Remaining:</span>
                                                     <span className="font-medium">{getTimeRemaining(tokenData.exp)}</span>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div className="p-4 bg-white border rounded-md">
-                                            <h4 className="font-medium text-gray-900 mb-2">User Information</h4>
+                                        <div className="rounded-md border bg-card p-4">
+                                            <h4 className="mb-2 font-medium text-foreground">User Information</h4>
                                             <div className="space-y-2 text-sm">
                                                 <div className="flex justify-between">
-                                                    <span className="text-gray-600">User ID:</span>
+                                                    <span className="text-muted-foreground">User ID:</span>
                                                     <span className="font-medium">{tokenData.user_id || 'N/A'}</span>
                                                 </div>
                                                 <div className="flex justify-between">
-                                                    <span className="text-gray-600">Username:</span>
+                                                    <span className="text-muted-foreground">Username:</span>
                                                     <span className="font-medium">{tokenData.username || 'N/A'}</span>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div className="p-4 bg-white border rounded-md">
-                                            <h4 className="font-medium text-gray-900 mb-2">Token Timestamps</h4>
+                                        <div className="rounded-md border bg-card p-4">
+                                            <h4 className="mb-2 font-medium text-foreground">Token Timestamps</h4>
                                             <div className="space-y-2 text-sm">
                                                 <div className="flex justify-between">
-                                                    <span className="text-gray-600">Issued At:</span>
+                                                    <span className="text-muted-foreground">Issued At:</span>
                                                     <span className="font-medium">{formatTimestamp(tokenData.iat)}</span>
                                                 </div>
                                                 <div className="flex justify-between">
-                                                    <span className="text-gray-600">Expires At:</span>
+                                                    <span className="text-muted-foreground">Expires At:</span>
                                                     <span className="font-medium">{formatTimestamp(tokenData.exp)}</span>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div className="p-4 bg-white border rounded-md">
-                                            <h4 className="font-medium text-gray-900 mb-2">Token Details</h4>
+                                        <div className="rounded-md border bg-card p-4">
+                                            <h4 className="mb-2 font-medium text-foreground">Token Details</h4>
                                             <div className="space-y-2 text-sm">
                                                 <div className="flex justify-between">
-                                                    <span className="text-gray-600">Token Type:</span>
+                                                    <span className="text-muted-foreground">Token Type:</span>
                                                     <span className="font-medium">{tokenData.token_type || 'access'}</span>
                                                 </div>
                                                 <div className="flex justify-between">
-                                                    <span className="text-gray-600">JTI:</span>
+                                                    <span className="text-muted-foreground">JTI:</span>
                                                     <span className="font-medium font-mono text-xs">{tokenData.jti || 'N/A'}</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div className="p-4 bg-gray-50 border rounded-md">
-                                        <h4 className="font-medium text-gray-900 mb-2">Raw Token Data</h4>
-                                        <pre className="text-xs bg-white p-3 rounded border overflow-x-auto">
+                                    <div className="rounded-md border bg-muted p-4">
+                                        <h4 className="mb-2 font-medium text-foreground">Raw Token Data</h4>
+                                        <pre className="overflow-x-auto rounded border bg-card p-3 text-xs">
                                             {JSON.stringify(tokenData, null, 2)}
                                         </pre>
                                     </div>
                                 </div>
                             ) : (
-                                <div className="p-4 bg-gray-50 border border-gray-200 rounded-md">
-                                    <p className="text-gray-600">Loading token data...</p>
+                                <div className="rounded-md border border-border bg-muted p-4">
+                                    <p className="text-muted-foreground">Loading token data...</p>
                                 </div>
                             )}
                         </div>

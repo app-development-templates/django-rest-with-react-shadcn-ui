@@ -1,20 +1,36 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+    Sidebar,
+    SidebarContent,
+    SidebarFooter,
+    SidebarGroup,
+    SidebarGroupContent,
+    SidebarHeader,
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem,
+    SidebarProvider,
+    SidebarTrigger,
+    useSidebar,
+} from "@/components/ui/sidebar";
+import { cn } from "@/lib/utils";
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "../constants";
-import { ChevronsUpDown, Menu, X } from "lucide-react";
+import UserMenu from "./UserMenu";
+import ThemeToggle from "./ThemeToggle";
+import {
+    FileText as FileTextIcon,
+    Home as HomeIcon,
+    Menu,
+    PanelLeft,
+    PanelRight,
+    X,
+} from "lucide-react";
 
 function Navigation() {
     const navigate = useNavigate();
+    const location = useLocation();
     const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
     const [isMobileUserMenuOpen, setIsMobileUserMenuOpen] = useState(false);
 
@@ -41,9 +57,8 @@ function Navigation() {
     }, [isMobileNavOpen]);
 
     const navLinks = [
-        { to: "/", label: "Home" },
-        { to: "/settings", label: "Settings" },
-        { to: "/boilerplate", label: "Boilerplate" },
+        { to: "/", label: "Home", icon: HomeIcon },
+        { to: "/boilerplate", label: "Boilerplate", icon: FileTextIcon },
     ];
 
     const handleLogout = () => {
@@ -54,170 +69,156 @@ function Navigation() {
     };
 
     return (
-        <nav className="bg-white shadow-sm border-b">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between h-16">
-                    <div className="flex items-center">
-                        {/* Logo/Brand */}
-                        <Link to="/" className="text-xl font-bold text-gray-900">
-                            MyApp
-                        </Link>
-                        
-                        {/* Navigation Menu */}
-                        <div className="ml-10 hidden md:flex items-baseline space-x-4">
-                            {navLinks.map(({ to, label }) => (
-                                <Link
-                                    key={to}
-                                    to={to}
-                                    className="text-gray-900 hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium"
-                                >
-                                    {label}
-                                </Link>
-                            ))}
-                        </div>
-                    </div>
+        <SidebarProvider>
+            <DesktopSidebar
+                navLinks={navLinks}
+                activePath={location.pathname}
+                onNavigate={navigate}
+                onLogout={handleLogout}
+            />
 
-                    {/* User Dropdown */}
-                    <div className="flex items-center">
-                        <Button
-                            variant="ghost"
-                            className="mr-2 md:hidden"
-                            onClick={() => setIsMobileNavOpen(true)}
-                            aria-label="Open navigation menu"
-                        >
-                            <Menu className="h-5 w-5" />
-                        </Button>
-                        <div className="hidden md:block">
-                            <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                                        <Avatar className="h-8 w-8">
-                                            <AvatarImage alt="User" />
-                                            <AvatarFallback>U</AvatarFallback>
-                                        </Avatar>
-                                    </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent className="w-56" align="end" forceMount>
-                                    <DropdownMenuLabel className="font-normal">
-                                        <div className="flex flex-col space-y-1">
-                                            <p className="text-sm font-medium leading-none">Current User</p>
-                                            <p className="text-xs leading-none text-muted-foreground">
-                                                user@example.com
-                                            </p>
-                                        </div>
-                                    </DropdownMenuLabel>
-                                    <DropdownMenuSeparator />
-                                    <DropdownMenuItem onClick={() => navigate("/settings")}>
-                                        Settings
-                                    </DropdownMenuItem>
-                                    <DropdownMenuSeparator />
-                                    <DropdownMenuItem onClick={handleLogout}>
-                                        Log out
-                                    </DropdownMenuItem>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <header className="flex justify-end border-b border-border bg-background px-4 py-4 md:hidden">
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setIsMobileNavOpen(true)}
+                    aria-label="Open navigation menu"
+                >
+                    <Menu className="h-5 w-5" />
+                </Button>
+            </header>
 
             {isMobileNavOpen ? (
                 <div
                     className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm md:hidden"
                     onClick={() => setIsMobileNavOpen(false)}
                 >
-                    <div
-                        className="relative flex h-full w-72 max-w-full flex-col bg-white shadow-lg"
-                        onClick={(event) => event.stopPropagation()}
-                    >
-                        <div className="flex items-center justify-between px-4 py-4 border-b">
-                            <Link to="/" className="text-xl font-bold text-gray-900" onClick={() => setIsMobileNavOpen(false)}>
-                                MyApp
-                            </Link>
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                onClick={() => setIsMobileNavOpen(false)}
-                                aria-label="Close navigation menu"
-                            >
-                                <X className="h-5 w-5" />
-                            </Button>
-                        </div>
-                        <div className="flex flex-1 flex-col px-4 py-6 space-y-4 overflow-y-auto">
-                            {navLinks.map(({ to, label }) => (
+                    <SidebarProvider defaultCollapsed={false}>
+                        <Sidebar
+                            collapsible="none"
+                            className="relative h-full w-72 max-w-full border-0 bg-sidebar text-sidebar-foreground shadow-lg"
+                            onClick={(event) => event.stopPropagation()}
+                        >
+                            <SidebarHeader className="border-b border-sidebar-border px-4 py-4">
                                 <Link
-                                    key={to}
-                                    to={to}
-                                    className="text-gray-900 hover:text-gray-600 px-3 py-2 rounded-md text-base font-medium"
+                                    to="/"
+                                    className="text-xl font-bold text-sidebar-foreground"
                                     onClick={() => setIsMobileNavOpen(false)}
                                 >
-                                    {label}
+                                    MyApp
                                 </Link>
-                            ))}
-                        </div>
-                        <div className="border-t border-gray-200 px-4 py-4">
-                            <DropdownMenu open={isMobileUserMenuOpen} onOpenChange={setIsMobileUserMenuOpen}>
-                                <DropdownMenuTrigger asChild>
-                                    <Button
-                                        variant="ghost"
-                                        className="w-full justify-between px-3"
-                                        aria-expanded={isMobileUserMenuOpen}
-                                    >
-                                        <span className="flex items-center gap-3">
-                                            <Avatar className="h-10 w-10">
-                                                <AvatarImage alt="User" />
-                                                <AvatarFallback>U</AvatarFallback>
-                                            </Avatar>
-                                            <span className="text-left">
-                                                <span className="block text-sm font-medium leading-none">Current User</span>
-                                                <span className="block text-xs text-muted-foreground">user@example.com</span>
-                                            </span>
-                                        </span>
-                                        <ChevronsUpDown className="h-4 w-4" />
-                                    </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent
-                                    className="w-64"
-                                    side="top"
-                                    align="end"
-                                    sideOffset={12}
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    onClick={() => setIsMobileNavOpen(false)}
+                                    aria-label="Close navigation menu"
                                 >
-                                    <DropdownMenuLabel className="font-normal">
-                                        <div className="flex items-center gap-3">
-                                            <Avatar className="h-10 w-10">
-                                                <AvatarImage alt="User" />
-                                                <AvatarFallback>U</AvatarFallback>
-                                            </Avatar>
-                                            <div>
-                                                <p className="text-sm font-medium leading-none">Current User</p>
-                                                <p className="text-xs text-muted-foreground">user@example.com</p>
-                                            </div>
-                                        </div>
-                                    </DropdownMenuLabel>
-                                    <DropdownMenuSeparator />
-                                    <DropdownMenuItem
-                                        onSelect={() => {
+                                    <X className="h-5 w-5" />
+                                </Button>
+                            </SidebarHeader>
+                            <SidebarContent className="px-4 py-6">
+                                <SidebarMenu className="space-y-2 text-sidebar-foreground">
+                                    {navLinks.map(({ to, label, icon: Icon }) => (
+                                        <SidebarMenuItem key={to}>
+                                            <SidebarMenuButton
+                                                asChild
+                                                isActive={location.pathname === to}
+                                                className="gap-3 px-3 py-3 text-base"
+                                                onClick={() => setIsMobileNavOpen(false)}
+                                            >
+                                                <Link to={to}>
+                                                    <Icon className="h-5 w-5" aria-hidden="true" />
+                                                    <span>{label}</span>
+                                                </Link>
+                                            </SidebarMenuButton>
+                                        </SidebarMenuItem>
+                                    ))}
+                                </SidebarMenu>
+                            </SidebarContent>
+                            <SidebarFooter className="border-t px-4 py-4">
+                                <div className="flex flex-col gap-3">
+                                    <ThemeToggle />
+                                    <UserMenu
+                                        open={isMobileUserMenuOpen}
+                                        onOpenChange={setIsMobileUserMenuOpen}
+                                        onSettings={() => {
                                             setIsMobileNavOpen(false);
                                             navigate("/settings");
                                         }}
-                                    >
-                                        Settings
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem
-                                        onSelect={() => {
+                                        onLogout={() => {
                                             handleLogout();
                                         }}
-                                        className="text-red-600 focus:text-red-600"
-                                    >
-                                        Log out
-                                    </DropdownMenuItem>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-                        </div>
-                    </div>
+                                        align="end"
+                                        triggerVariant="ghost"
+                                    />
+                                </div>
+                            </SidebarFooter>
+                        </Sidebar>
+                    </SidebarProvider>
                 </div>
             ) : null}
-        </nav>
+        </SidebarProvider>
+    );
+}
+
+function DesktopSidebar({ navLinks, activePath, onNavigate, onLogout }) {
+    const { isCollapsed } = useSidebar();
+
+    return (
+        <Sidebar
+            collapsible="icon"
+            className="hidden md:sticky md:top-0 md:flex md:h-screen md:flex-none md:bg-sidebar md:text-sidebar-foreground md:shadow-sm"
+        >
+            <SidebarHeader className={cn("border-b border-sidebar-border", isCollapsed ? "px-3" : "px-6")}
+            >
+                <div className="flex w-full items-center gap-3">
+                    <SidebarTrigger
+                        className="h-10 w-10 rounded-md border border-border bg-muted text-foreground transition-colors hover:bg-muted/80"
+                        aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+                        aria-pressed={isCollapsed}
+                    >
+                        {isCollapsed ? <PanelRight className="h-5 w-5" /> : <PanelLeft className="h-5 w-5" />}
+                    </SidebarTrigger>
+                    {!isCollapsed && (
+                        <Link to="/" className="text-xl font-bold text-sidebar-foreground" aria-label="MyApp">
+                            MyApp
+                        </Link>
+                    )}
+                </div>
+            </SidebarHeader>
+            <SidebarContent className={cn("py-6", isCollapsed ? "px-2" : "px-4")}
+            >
+                <SidebarGroup>
+                    <SidebarGroupContent>
+                        <SidebarMenu>
+                            {navLinks.map(({ to, label, icon: Icon }) => (
+                                <SidebarMenuItem key={to}>
+                                    <SidebarMenuButton
+                                        asChild
+                                        isActive={activePath === to}
+                                        className={cn(isCollapsed ? "justify-center" : "justify-start")}
+                                    >
+                                        <Link to={to} className="flex items-center gap-2" title={label}>
+                                            <Icon className="h-4 w-4" aria-hidden="true" />
+                                            <span className={cn(isCollapsed ? "sr-only" : "")}>{label}</span>
+                                        </Link>
+                                    </SidebarMenuButton>
+                                </SidebarMenuItem>
+                            ))}
+                        </SidebarMenu>
+                    </SidebarGroupContent>
+                </SidebarGroup>
+            </SidebarContent>
+            <SidebarFooter className={cn("flex flex-col gap-3", isCollapsed ? "px-2" : "px-4")}
+            >
+                <ThemeToggle collapsed={isCollapsed} />
+                <UserMenu
+                    collapsed={isCollapsed}
+                    onSettings={() => onNavigate("/settings")}
+                    onLogout={onLogout}
+                />
+            </SidebarFooter>
+        </Sidebar>
     );
 }
 

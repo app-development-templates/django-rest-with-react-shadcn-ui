@@ -50,9 +50,9 @@ python3 manage.py runserver
 For frontend setup:
 ~~~shell
 # frontend
-cd react-frontend && \
+cd react-shadcn-ui && \
 # Install Node.js dependencies
 npm install && \
 # Start the React development server
-npm start
+npm run dev
 ~~~

@@ -36,7 +36,7 @@ function Register() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="min-h-screen flex items-center justify-center bg-background">
             <Card className="w-full max-w-md">
                 <CardHeader className="space-y-1">
                     <CardTitle className="text-2xl font-bold text-center">Register</CardTitle>
@@ -46,8 +46,8 @@ function Register() {
                 </CardHeader>
                 <CardContent>
                     {errors.non_field_errors && (
-                        <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md">
-                            <p className="text-sm text-red-600">
+                        <div className="mb-4 rounded-md border border-destructive/40 bg-destructive/10 p-3">
+                            <p className="text-sm text-destructive">
                                 {Array.isArray(errors.non_field_errors) ? errors.non_field_errors[0] : errors.non_field_errors}
                             </p>
                         </div>
@@ -63,10 +63,10 @@ function Register() {
                                 placeholder="Choose a username"
                                 required
                                 autoComplete="off"
-                                className={errors.username ? "border-red-500" : ""}
+                                className={errors.username ? "border-destructive" : ""}
                             />
                             {errors.username && (
-                                <p className="text-sm text-red-600">
+                                <p className="text-sm text-destructive">
                                     {Array.isArray(errors.username) ? errors.username[0] : errors.username}
                                 </p>
                             )}
@@ -81,10 +81,10 @@ function Register() {
                                 placeholder="Choose a secure password"
                                 required
                                 autoComplete="new-password"
-                                className={errors.password ? "border-red-500" : ""}
+                                className={errors.password ? "border-destructive" : ""}
                             />
                             {errors.password && (
-                                <p className="text-sm text-red-600">
+                                <p className="text-sm text-destructive">
                                     {Array.isArray(errors.password) ? errors.password[0] : errors.password}
                                 </p>
                             )}
