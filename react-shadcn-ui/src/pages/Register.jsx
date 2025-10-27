@@ -12,6 +12,9 @@ import { AUTH_TOKEN_EVENT } from "../hooks/useCurrentUser";
 function Register() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
@@ -22,7 +25,13 @@ function Register() {
         setErrors({}); // Clear previous errors
 
         try {
-            const res = await api.post("/api/user/register/", { username, password });
+            const res = await api.post("/api/user/register/", {
+                username,
+                password,
+                email,
+                first_name: firstName,
+                last_name: lastName,
+            });
 
             const { access, refresh } = res.data;
             if (access && refresh) {
@@ -97,6 +106,57 @@ function Register() {
                             {errors.password && (
                                 <p className="text-sm text-destructive">
                                     {Array.isArray(errors.password) ? errors.password[0] : errors.password}
+                                </p>
+                            )}
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="email">Email (Optional)</Label>
+                            <Input
+                                id="email"
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="you@example.com"
+                                autoComplete="email"
+                                className={errors.email ? "border-destructive" : ""}
+                            />
+                            {errors.email && (
+                                <p className="text-sm text-destructive">
+                                    {Array.isArray(errors.email) ? errors.email[0] : errors.email}
+                                </p>
+                            )}
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="firstName">First name (Optional)</Label>
+                            <Input
+                                id="firstName"
+                                type="text"
+                                value={firstName}
+                                onChange={(e) => setFirstName(e.target.value)}
+                                placeholder="Your first name"
+                                autoComplete="given-name"
+                                className={errors.first_name ? "border-destructive" : ""}
+                            />
+                            {errors.first_name && (
+                                <p className="text-sm text-destructive">
+                                    {Array.isArray(errors.first_name) ? errors.first_name[0] : errors.first_name}
+                                </p>
+                            )}
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="lastName">Last name (Optional)</Label>
+                            <Input
+                                id="lastName"
+                                type="text"
+                                value={lastName}
+                                onChange={(e) => setLastName(e.target.value)}
+                                placeholder="Your last name"
+                                autoComplete="family-name"
+                                className={errors.last_name ? "border-destructive" : ""}
+                            />
+                            {errors.last_name && (
+                                <p className="text-sm text-destructive">
+                                    {Array.isArray(errors.last_name) ? errors.last_name[0] : errors.last_name}
                                 </p>
                             )}
                         </div>

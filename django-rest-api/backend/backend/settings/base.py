@@ -219,6 +219,7 @@ SIMPLE_JWT = {
     "REFRESH_TOKEN_LIFETIME": timedelta(days=int(os.getenv("REFRESH_TOKEN_LIFETIME", "7"))),
     "ALGORITHM": os.getenv("JWT_ALGORITHM", "HS256"),
     "SIGNING_KEY": os.getenv("JWT_SIGNING_KEY", SECRET_KEY),
+    "UPDATE_LAST_LOGIN": True,
 }
 
 
