@@ -64,7 +64,7 @@ services:
   backend:
     build:
       context: ./django-rest-api
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
       args:
         - ENVIRONMENT=production
         - DB_HOST=db

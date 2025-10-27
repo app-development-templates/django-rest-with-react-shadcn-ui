@@ -6,6 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Spinner } from "@/components/ui/spinner";
+import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "../constants";
+import { AUTH_TOKEN_EVENT } from "../hooks/useCurrentUser";
 
 function Register() {
     const [username, setUsername] = useState("");
@@ -20,8 +22,17 @@ function Register() {
         setErrors({}); // Clear previous errors
 
         try {
-            await api.post("/api/user/register/", { username, password });
-            navigate("/login");
+            const res = await api.post("/api/user/register/", { username, password });
+
+            const { access, refresh } = res.data;
+            if (access && refresh) {
+                localStorage.setItem(ACCESS_TOKEN_KEY, access);
+                localStorage.setItem(REFRESH_TOKEN_KEY, refresh);
+                window.dispatchEvent(new Event(AUTH_TOKEN_EVENT));
+                navigate("/");
+            } else {
+                navigate("/login", { state: { message: "Account created. Please log in." } });
+            }
         } catch (error) {
             if (error.response && error.response.status === 400 && error.response.data) {
                 // Handle validation errors from Django REST Framework

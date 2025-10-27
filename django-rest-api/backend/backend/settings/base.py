@@ -198,11 +198,19 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
+default_server_urls = [url.strip() for url in os.getenv("OPENAPI_SERVER_URLS", "").split(",") if url.strip()]
+if not default_server_urls:
+    default_server_urls = [
+        "http://127.0.0.1:8000",
+        os.getenv("PUBLIC_API_BASE_URL", "https://backend.presentationlab.org"),
+    ]
+
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Your Project API',
-    'DESCRIPTION': 'Your project description',
-    'VERSION': '1.0.0',
-    'SERVE_INCLUDE_SCHEMA': False,
+    "TITLE": "Your Project API",
+    "DESCRIPTION": "Your project description",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "SERVERS": [{"url": url} for url in default_server_urls if url],
     # OTHER SETTINGS
 }
 
@@ -218,7 +226,7 @@ cors_origins = os.getenv("CORS_ALLOWED_ORIGINS", "").strip()
 if cors_origins:
     CORS_ALLOWED_ORIGINS = _split_env_list(cors_origins)
 elif DEBUG:
-    CORS_ALLOWED_ORIGINS = ["http://localhost:3000"]
+    CORS_ALLOWED_ORIGINS = ["http://localhost:3000", "http://localhost:3001"]
 else:
     CORS_ALLOWED_ORIGINS = []
 

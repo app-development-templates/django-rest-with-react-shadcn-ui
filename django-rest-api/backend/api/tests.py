@@ -46,10 +46,41 @@ class TestTokenClaims(APITestCase):
 		self.assertEqual(
 			response.data["user"],
 			{
-				"id": self.user.id,
 				"username": "jdoe",
 				"email": "jdoe@example.com",
 				"first_name": "John",
 				"last_name": "Doe",
 			},
 		)
+
+		self.assertIn("refresh", response.data)
+		self.assertIn("access", response.data)
+
+
+class TestRegistrationResponse(APITestCase):
+	def test_registration_returns_token_payload(self):
+		url = reverse("create_user")
+		response = self.client.post(
+			url,
+			{"username": "newbie", "password": "pass1234"},
+			format="json",
+		)
+
+		self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+		self.assertTrue(User.objects.filter(username="newbie").exists())
+		self.assertIn("refresh", response.data)
+		self.assertIn("access", response.data)
+		self.assertIn("user", response.data)
+		self.assertEqual(
+			response.data["user"],
+			{
+				"username": "newbie",
+				"email": "",
+				"first_name": "",
+				"last_name": "",
+			},
+		)
+
+		access = response.data["access"]
+		payload = token_backend.decode(access, verify=True)
+		self.assertEqual(payload["username"], "newbie")
