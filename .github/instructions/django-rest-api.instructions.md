@@ -41,8 +41,8 @@ This project uses the following core libraries and their specific configurations
 
 ### URL Patterns
 - `/api/user/register/` - User registration (AllowAny)
-- `/api/token/` - JWT token obtain
-- `/api/token/refresh/` - JWT token refresh
+- `/api/user/token/` - JWT token obtain
+- `/api/user/token/refresh/` - JWT token refresh
 - `/api-auth/` - DRF browsable API auth (optional)
 
 ### Current Models

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api";
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "../constants";
+import { AUTH_TOKEN_EVENT } from "../hooks/useCurrentUser";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -31,9 +32,10 @@ function Login() {
         setLoading(true);
 
         try {
-            const res = await api.post("/api/token/", { username, password });
+            const res = await api.post("/api/user/token/", { username, password });
             localStorage.setItem(ACCESS_TOKEN_KEY, res.data.access);
             localStorage.setItem(REFRESH_TOKEN_KEY, res.data.refresh);
+            window.dispatchEvent(new Event(AUTH_TOKEN_EVENT));
             navigate("/");
         } catch (error) {
             if (error.response && error.response.data) {

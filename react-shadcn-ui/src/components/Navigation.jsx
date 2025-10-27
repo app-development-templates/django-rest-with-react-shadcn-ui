@@ -19,6 +19,7 @@ import { cn } from "@/lib/utils";
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "../constants";
 import UserMenu from "./UserMenu";
 import ThemeToggle from "./ThemeToggle";
+import { AUTH_TOKEN_EVENT } from "../hooks/useCurrentUser";
 import {
     FileText as FileTextIcon,
     Home as HomeIcon,
@@ -64,6 +65,7 @@ function Navigation() {
     const handleLogout = () => {
         localStorage.removeItem(ACCESS_TOKEN_KEY);
         localStorage.removeItem(REFRESH_TOKEN_KEY);
+        window.dispatchEvent(new Event(AUTH_TOKEN_EVENT));
         navigate("/login");
         setIsMobileNavOpen(false);
     };

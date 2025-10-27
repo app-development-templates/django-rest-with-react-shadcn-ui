@@ -10,12 +10,12 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 const UserMenu = forwardRef(function UserMenu(
     {
         align = "end",
         collapsed = false,
-        email = "user@example.com",
         logoutItemClassName,
         onLogout,
         onSettings,
@@ -25,6 +25,11 @@ const UserMenu = forwardRef(function UserMenu(
     },
     ref
 ) {
+    const user = useCurrentUser();
+    const email = user?.email || "user@example.com";
+    const displayName = user?.displayName || user?.username || "Current User";
+    const avatarFallback = (displayName?.[0] || "U").toUpperCase();
+
     return (
         <DropdownMenu open={open} onOpenChange={onOpenChange}>
             <DropdownMenuTrigger asChild>
@@ -39,13 +44,13 @@ const UserMenu = forwardRef(function UserMenu(
                 >
                     <Avatar className="h-8 w-8">
                         <AvatarImage alt="User" />
-                        <AvatarFallback>U</AvatarFallback>
+                        <AvatarFallback>{avatarFallback}</AvatarFallback>
                     </Avatar>
                     {collapsed ? (
-                        <span className="sr-only">Current User ({email})</span>
+                        <span className="sr-only">{displayName} ({email})</span>
                     ) : (
                         <span className="flex flex-col items-start text-left">
-                            <span className="text-sm font-medium leading-none">Current User</span>
+                            <span className="text-sm font-medium leading-none">{displayName}</span>
                             <span className="text-xs text-muted-foreground">{email}</span>
                         </span>
                     )}
@@ -54,7 +59,7 @@ const UserMenu = forwardRef(function UserMenu(
             <DropdownMenuContent className="w-60" align={align} forceMount>
                 <DropdownMenuLabel className="font-normal">
                     <div className="flex flex-col space-y-1">
-                        <p className="text-sm font-medium leading-none">Current User</p>
+                        <p className="text-sm font-medium leading-none">{displayName}</p>
                         <p className="text-xs leading-none text-muted-foreground">{email}</p>
                     </div>
                 </DropdownMenuLabel>
