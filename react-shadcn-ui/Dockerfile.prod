@@ -4,12 +4,12 @@ FROM node:20-alpine as build
 
 # Accept API base URL and token metadata at build time so Vite can bake them into the bundle
 ARG VITE_API_URL
-ARG VITE_ACCESS_TOKEN_TTL_MINUTES
-ARG VITE_REFRESH_TOKEN_TTL_DAYS
+ARG ACCESS_TOKEN_TTL_MINUTES
+ARG REFRESH_TOKEN_TTL_DAYS
 
 ENV VITE_API_URL=${VITE_API_URL}
-ENV VITE_ACCESS_TOKEN_TTL_MINUTES=${VITE_ACCESS_TOKEN_TTL_MINUTES}
-ENV VITE_REFRESH_TOKEN_TTL_DAYS=${VITE_REFRESH_TOKEN_TTL_DAYS}
+ENV ACCESS_TOKEN_TTL_MINUTES=${ACCESS_TOKEN_TTL_MINUTES}
+ENV REFRESH_TOKEN_TTL_DAYS=${REFRESH_TOKEN_TTL_DAYS}
 
 # Set working directory
 WORKDIR /app
@@ -26,8 +26,8 @@ COPY . .
 # Persist provided environment variables into a .env file consumed by Vite's build
 RUN rm -f .env && touch .env \
 	&& { [ -n "$VITE_API_URL" ] && echo "VITE_API_URL=$VITE_API_URL" >> .env; } \
-	&& { [ -n "$VITE_ACCESS_TOKEN_TTL_MINUTES" ] && echo "VITE_ACCESS_TOKEN_TTL_MINUTES=$VITE_ACCESS_TOKEN_TTL_MINUTES" >> .env; } \
-	&& { [ -n "$VITE_REFRESH_TOKEN_TTL_DAYS" ] && echo "VITE_REFRESH_TOKEN_TTL_DAYS=$VITE_REFRESH_TOKEN_TTL_DAYS" >> .env; }
+	&& { [ -n "$ACCESS_TOKEN_TTL_MINUTES" ] && echo "ACCESS_TOKEN_TTL_MINUTES=$ACCESS_TOKEN_TTL_MINUTES" >> .env; } \
+	&& { [ -n "$REFRESH_TOKEN_TTL_DAYS" ] && echo "REFRESH_TOKEN_TTL_DAYS=$REFRESH_TOKEN_TTL_DAYS" >> .env; }
 
 # Build the application
 RUN npm run build

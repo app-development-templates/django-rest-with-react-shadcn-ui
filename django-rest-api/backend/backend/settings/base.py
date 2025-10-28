@@ -217,8 +217,8 @@ SPECTACULAR_SETTINGS = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=int(os.getenv("ACCESS_TOKEN_LIFETIME", "30"))),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=int(os.getenv("REFRESH_TOKEN_LIFETIME", "7"))),
+    "ACCESS_TOKEN_LIFETIME_MINUTES": timedelta(minutes=int(os.getenv("ACCESS_TOKEN_LIFETIME_MINUTES"))),
+    "REFRESH_TOKEN_LIFETIME_DAYS": timedelta(days=int(os.getenv("REFRESH_TOKEN_LIFETIME_DAYS"))),
     "ALGORITHM": os.getenv("JWT_ALGORITHM", "HS256"),
     "SIGNING_KEY": os.getenv("JWT_SIGNING_KEY", SECRET_KEY),
     "UPDATE_LAST_LOGIN": True,

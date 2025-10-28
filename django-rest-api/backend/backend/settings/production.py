@@ -69,10 +69,10 @@ else:
 
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
-SIMPLE_JWT["ACCESS_TOKEN_LIFETIME"] = timedelta(
-    minutes=int(os.getenv("ACCESS_TOKEN_LIFETIME", "15"))
+SIMPLE_JWT["ACCESS_TOKEN_LIFETIME_MINUTES"] = timedelta(
+    minutes=int(os.getenv("ACCESS_TOKEN_LIFETIME_MINUTES", "15"))
 )
-SIMPLE_JWT["REFRESH_TOKEN_LIFETIME"] = timedelta(
-    days=int(os.getenv("REFRESH_TOKEN_LIFETIME", "7"))
+SIMPLE_JWT["REFRESH_TOKEN_LIFETIME_DAYS"] = timedelta(
+    days=int(os.getenv("REFRESH_TOKEN_LIFETIME_DAYS", "7"))
 )
 SIMPLE_JWT["SIGNING_KEY"] = os.getenv("JWT_SIGNING_KEY", SECRET_KEY)

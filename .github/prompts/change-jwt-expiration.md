@@ -55,16 +55,16 @@ Update the JWT token expiration settings to keep users logged in for 2 weeks.
 **Current Configuration** (lines ~44-47):
 ```python
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(days=7),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=14),
+    "ACCESS_TOKEN_LIFETIME_MINUTES": timedelta(days=7),
+    "REFRESH_TOKEN_LIFETIME_DAYS": timedelta(days=14),
 }
 ```
 
 **Update to** (example for 30 days):
 ```python
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(days=30),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=60),  # Always 2x access token
+    "ACCESS_TOKEN_LIFETIME_MINUTES": timedelta(days=30),
+    "REFRESH_TOKEN_LIFETIME_DAYS": timedelta(days=60),  # Always 2x access token
 }
 ```
 
@@ -131,8 +131,8 @@ const interval = setInterval(checkTokenExpiration, 6 * 60 * 60 * 1000);
 ### Development/Testing (2 weeks)
 ```python
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(days=14),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=28),
+    "ACCESS_TOKEN_LIFETIME_MINUTES": timedelta(days=14),
+    "REFRESH_TOKEN_LIFETIME_DAYS": timedelta(days=28),
 }
 ```
 Frontend warning: 2-3 days before expiration
@@ -140,8 +140,8 @@ Frontend warning: 2-3 days before expiration
 ### Standard Web Apps (30 days) 
 ```python
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(days=30),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=60),
+    "ACCESS_TOKEN_LIFETIME_MINUTES": timedelta(days=30),
+    "REFRESH_TOKEN_LIFETIME_DAYS": timedelta(days=60),
 }
 ```
 Frontend warning: 5-7 days before expiration
@@ -149,8 +149,8 @@ Frontend warning: 5-7 days before expiration
 ### Long-term/Enterprise (90 days)
 ```python
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(days=90),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=180),
+    "ACCESS_TOKEN_LIFETIME_MINUTES": timedelta(days=90),
+    "REFRESH_TOKEN_LIFETIME_DAYS": timedelta(days=180),
 }
 ```
 Frontend warning: 10-14 days before expiration
@@ -158,8 +158,8 @@ Frontend warning: 10-14 days before expiration
 ### Internal Tools (6 months)
 ```python
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(days=180),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=360),
+    "ACCESS_TOKEN_LIFETIME_MINUTES": timedelta(days=180),
+    "REFRESH_TOKEN_LIFETIME_DAYS": timedelta(days=360),
 }
 ```
 Frontend warning: 30 days before expiration

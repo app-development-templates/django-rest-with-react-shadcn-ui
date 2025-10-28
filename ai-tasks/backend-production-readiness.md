@@ -19,7 +19,7 @@
 	- [x] Enable `SECURE_REFERRER_POLICY='strict-origin-when-cross-origin'` and `X_FRAME_OPTIONS='DENY'` if iframe support is not required.
 
 5. Tighten JWT & Authentication Defaults
-	- [x] Parameterize `SIMPLE_JWT` lifetimes via env vars (`ACCESS_TOKEN_LIFETIME`, `REFRESH_TOKEN_LIFETIME`) and shorten production tokens (e.g. 15 minutes / 7 days) for better revocation posture.
+	- [x] Parameterize `SIMPLE_JWT` lifetimes via env vars (`ACCESS_TOKEN_LIFETIME_MINUTES`, `REFRESH_TOKEN_LIFETIME_DAYS`) and shorten production tokens (e.g. 15 minutes / 7 days) for better revocation posture.
 	- [x] Configure `SIGNING_KEY` to use the Django `SECRET_KEY` or an isolated secret and ensure `ALGORITHM` is consistent across environments.
 	- [x] Add DRF throttling classes (e.g. `UserRateThrottle`, `AnonRateThrottle`) to `REST_FRAMEWORK` with env-configurable rates to protect login and registration endpoints.
 

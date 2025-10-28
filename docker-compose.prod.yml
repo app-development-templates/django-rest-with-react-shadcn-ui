@@ -1,42 +1,3 @@
-## Environment variables template
-## PostgreSQL settings
-# DB_NAME=postgres 
-# DB_USER=postgres 
-# DB_PASSWORD=postgres 
-#
-## Dokploy host settings
-# DOCKPLOY_BACKEND_HOST=backend.presentationlab.org 
-# DOCKPLOY_FRONTEND_HOST=frontend.presentationlab.org
-#
-## Backend settings
-# SECRET_KEY=random-secret-key-*$&*#@!HDU@D&*@$G@!*&H*D&H& 
-# JWT_SIGNING_KEY=random-jwt-signing-key-*$&*#@!HDU@D&*@$G@!*&H*D&H&
-#
-## Backend Super user (Only for initial setup of the db)
-# DJANGO_SUPERUSER_USERNAME=maxuli
-# DJANGO_SUPERUSER_PASSWORD='asdfghj1'
-# DJANGO_SUPERUSER_EMAIL=maxuli@example.com
-#
-## Backend security settings OPTIONAL 
-# DRF_THROTTLE_RATE_ANON=20/min
-# DRF_THROTTLE_RATE_USER=120/min
-# JWT_ALGORITHM=HS256
-# X_FRAME_OPTIONS=SAMEORIGIN/DENY
-# ENABLE_HSTS=false
-#
-## JWT settings OPTIONAL
-# ACCESS_TOKEN_LIFETIME=15
-# REFRESH_TOKEN_LIFETIME=7
-#
-## Backend database OPTIONAL
-# DB_SSLMODE=require
-# DB_TARGET_SESSION_ATTRS=read-write
-
-
-## Frontend settings OPTIONAL
-# VITE_ACCESS_TOKEN_TTL_MINUTES=15
-# VITE_REFRESH_TOKEN_TTL_DAYS=7
-
 services:
   # PostgreSQL Database
   db:
@@ -47,9 +8,6 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256 --auth-local=scram-sha-256"
-    # Remove fixed port mapping for production deployment
-    # ports:
-    #   - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
@@ -82,9 +40,9 @@ services:
     restart: unless-stopped
     environment:
       ENVIRONMENT: production
-      GUNICORN_WORKERS: ${GUNICORN_WORKERS:-4}
-      GUNICORN_THREADS: ${GUNICORN_THREADS:-2}
-      GUNICORN_TIMEOUT: ${GUNICORN_TIMEOUT:-60}
+      GUNICORN_WORKERS: ${GUNICORN_WORKERS}
+      GUNICORN_THREADS: ${GUNICORN_THREADS}
+      GUNICORN_TIMEOUT: ${GUNICORN_TIMEOUT}
     # Use expose instead of ports for Dokploy compatibility
     expose:
       - "8000"
@@ -115,8 +73,8 @@ services:
       dockerfile: Dockerfile.prod
       args:
         - VITE_API_URL=https://${DOCKPLOY_BACKEND_HOST}
-        - VITE_ACCESS_TOKEN_TTL_MINUTES=${ACCESS_TOKEN_LIFETIME:-15}
-        - VITE_REFRESH_TOKEN_TTL_DAYS=${REFRESH_TOKEN_LIFETIME:-7}
+        - ACCESS_TOKEN_TTL_MINUTES=${ACCESS_TOKEN_LIFETIME_MINUTES}
+        - REFRESH_TOKEN_TTL_DAYS=${REFRESH_TOKEN_LIFETIME_DAYS}
     restart: unless-stopped
     # Use expose instead of ports for Dokploy compatibility
     expose:

@@ -35,10 +35,10 @@ cd django-rest-api && \
 python3 -m venv .venv && \
 # Activate the virtual environment
 source .venv/bin/activate && \
-# Navigate to the backend directory
-cd backend && \
 # Install Python dependencies
 pip install -r requirements.txt && \
+# Navigate to the backend directory
+cd backend && \
 # Create database migration files
 python3 manage.py makemigrations && \
 # Apply database migrations
